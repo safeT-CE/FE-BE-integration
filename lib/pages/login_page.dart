@@ -3,7 +3,12 @@ import 'package:safet/main.dart';
 
 import '../utils/auth_helper.dart';
 
-class LoginPage extends StatefulWidget {
+// 추가
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class LoginPage extends StatefulWidget { 
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -13,9 +18,82 @@ class _LoginPageState extends State<LoginPage> {
   bool _autoLogin = false;
 
   Future<void> _login() async {
-    // 여기에 실제 로그인 로직을 구현
-    await AuthHelper.setLoginStatus(true);
-    Navigator.pushReplacementNamed(context, '/home');
+  final phone = _phoneController.text;
+  print('Attempting to login with phone: $phone');
+  var client = http.Client(); // Client 객체 생성
+
+  try {
+    print('Starting POST request...');
+
+    Map data = {'phone': phone};
+    var body = json.encode(data);
+    
+    final response = await client.post(
+        Uri.parse("http://192.168.219.102:8080/auth/login"),
+        headers: {"Content-Type": "application/json"}, 
+        body: body);
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+    if (response.statusCode == 200) {
+      // JSON 응답 파싱
+      var responseData = json.decode(response.body);
+      String token = responseData['jwtToken'];
+      String userId = responseData['userId'].toString();
+      
+      await saveUserId(userId);
+
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      // 에러 처리, 화면 전환 중지
+      print('Failed to login: ${response.body}');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Invalid credentials')),
+      );
+    }
+  } catch (e) {
+    print('Request failed with error: $e');
+    }
+  }
+  // Future<void> _login() async {
+  //   // 수정
+  //   final phone = _phoneController.text;
+  //   print('Attempting to login with phone: $phone'); // 로그 추가
+
+  //   final response = await http.post(
+  //     Uri.parse("http://10.0.2.2:8080/auth/login"),
+  //     headers: <String, String>{
+  //       'Content-Type': 'application/json; charset=UTF-8',
+  //     },
+  //     body: jsonEncode(<String, String>{
+  //       'phone' : phone,
+  //     })
+  //     ,
+  //   );
+
+  //   print('Response status: ${response.statusCode}'); // 로그 추가
+  //   print('Response body: ${response.body}'); // 로그 추가
+
+
+  //   if (response.statusCode == 200) {
+  //     // 로그인 성공 시 처리 (예: 토큰 저장, 페이지 이동 등)
+  //     Navigator.pushReplacementNamed(context, '/home');
+  //   } else {
+  //     // 로그인 실패 시 처리 (예: 오류 메시지 표시)
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Invalid credentials')),
+  //     );
+  //   }
+  //   // 여기에 실제 로그인 로직을 구현
+  //   //await AuthHelper.setLoginStatus(true);
+  //   //Navigator.pushReplacementNamed(context, '/home');
+  // }
+
+  
+  Future<void> saveUserId(String userId) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('userId', userId);
   }
 
   @override
@@ -97,7 +175,8 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/home');
+                _login();
+                //Navigator.pushNamed(context, '/home');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: safeTgreen,

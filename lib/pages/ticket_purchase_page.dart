@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
+
+import 'package:http/http.dart' as http; // 추가
+import 'dart:convert';
 
 class TicketPurchasePage extends StatefulWidget {
   const TicketPurchasePage({super.key});
@@ -96,28 +100,64 @@ class _TicketPurchasePageState extends State<TicketPurchasePage> {
     );
   }
 
-  void _showPaymentConfirmationPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: const Text('결제 완료'),
-          content: const Text('결제가 완료되었습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: safeTgreen, 
-              ),
-              child: const Text('확인'),
-            ),
-          ],
+  void _showPaymentConfirmationPopup(BuildContext context) async{
+    // SharedPreferences에서 userId 가져옴
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+
+    if(userId != null){
+      // 서버에 post 요청
+      var response = await _sendPaymentRequest(userId);
+
+      if(response.statusCode == 200){
+        // 결제 성공
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              backgroundColor: Colors.white,
+              title: const Text('결제 완료'),
+              content: const Text('결제가 완료되었습니다.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pushNamedAndRemoveUntil('/home', (Route<dynamic> route) => false);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: safeTgreen, 
+                  ),
+                  child: const Text('확인'),
+                ),
+              ],
+            );
+          },
+        );    
+      } else {
+        // 결제 실패
+        print('Failed to buy a ticket: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Already bought a ticket')),
         );
-      },
-    );
+      }
+    } else {
+      // userId가 없을 경우, 로그인 화면으로 이동함
+      Navigator.of(context).pushNamedAndRemoveUntil('/login', (Route<dynamic> route) => false);
+    } 
   }
+
+  Future<http.Response> _sendPaymentRequest(String userId) {
+    // API 호출하기
+                      // 여기 수정 필요 - 이용권 구매로 변경하기 - http://192.168.219.102:8080/ticket
+                  // 수정 코드
+                
+                  //
+    var url = Uri.parse('http://192.168.219.102:8080/ticket');
+    var headers = {"Content-Type": "application/json"};
+    var body = jsonEncode({
+      'userId': userId
+    });
+    return http.post(url, headers: headers, body: body);
+  }
+  
 }

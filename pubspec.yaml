@@ -39,9 +39,7 @@ dependencies:
   camera: ^0.10.0+4
   intl: ^0.17.0  
   kakao_flutter_sdk: ^1.9.5
-
-
-
+  http: ^0.13.3
 
 
   # The following adds the Cupertino Icons font to your application.
