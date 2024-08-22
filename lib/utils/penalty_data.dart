@@ -8,7 +8,6 @@ Future<List<Penalty>> fetchPenalties() async {
     String? userId = prefs.getString('userId');
 
   final url = Uri.parse('http://192.168.219.103:8080/penalty/check/summary?userId=$userId');
-  //final url = Uri.parse('http://172.30.1.35:8080/penalty/check/summary?userId=$userId');
   final response = await http.get(url);
 
   if (response.statusCode == 200) {

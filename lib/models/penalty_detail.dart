@@ -2,7 +2,6 @@
 class Penalty_detail {
 
   final int penaltyId;
-  //final String userId;
   final String content;
   final DateTime date;
   final String photo;

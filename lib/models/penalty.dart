@@ -2,7 +2,6 @@
 class Penalty {
 
   final int penaltyId;
-  //final String userId;
   final String content;
   final DateTime date;
   final String photo;
@@ -15,7 +14,6 @@ class Penalty {
   factory Penalty.fromJson(Map<String, dynamic> json) {
     return Penalty(
       penaltyId : json['penaltyId'] ?? '',
-      //userId : json['userId'] ?? '',
       content : json['content'] ?? '',
       date: DateTime.parse(json['date']),
       photo : json['photo'] ?? '',

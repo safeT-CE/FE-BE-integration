@@ -23,10 +23,12 @@ class PenaltyDetailPage extends StatelessWidget {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
 
-    final response = await http.get(Uri.parse('http://192.168.219.103:8080/penalty/check/detail?userId=$userId&penaltyId=$penaltyId'));
-    print(penaltyId);
-    print('Response status: ${response.statusCode}');
-    print('Response body: ${response.body}');
+    final response = await http.get(
+      Uri.parse('http://192.168.219.103:8080/penalty/check/detail?userId=$userId&penaltyId=$penaltyId'));
+    
+    //print('Response status: ${response.statusCode}');
+    //print('Response body: ${response.body}');
+    
     if(response.statusCode == 200){
       // server response ok -> json data decoding
       return PenaltyDetailResponse.fromJson(json.decode(response.body));
