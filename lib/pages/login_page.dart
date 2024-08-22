@@ -29,10 +29,11 @@ class _LoginPageState extends State<LoginPage> {
     var body = json.encode(data);
     
     final response = await client.post(
-        Uri.parse("http://192.168.219.102:8080/auth/login"),
+        Uri.parse("http://192.168.219.103:8080/auth/login"),
+        //Uri.parse("http://172.30.1.35:8080/auth/login"),
         headers: {"Content-Type": "application/json"}, 
         body: body);
-
+    
     print('Response status: ${response.statusCode}');
     print('Response body: ${response.body}');
 
@@ -56,40 +57,6 @@ class _LoginPageState extends State<LoginPage> {
     print('Request failed with error: $e');
     }
   }
-  // Future<void> _login() async {
-  //   // 수정
-  //   final phone = _phoneController.text;
-  //   print('Attempting to login with phone: $phone'); // 로그 추가
-
-  //   final response = await http.post(
-  //     Uri.parse("http://10.0.2.2:8080/auth/login"),
-  //     headers: <String, String>{
-  //       'Content-Type': 'application/json; charset=UTF-8',
-  //     },
-  //     body: jsonEncode(<String, String>{
-  //       'phone' : phone,
-  //     })
-  //     ,
-  //   );
-
-  //   print('Response status: ${response.statusCode}'); // 로그 추가
-  //   print('Response body: ${response.body}'); // 로그 추가
-
-
-  //   if (response.statusCode == 200) {
-  //     // 로그인 성공 시 처리 (예: 토큰 저장, 페이지 이동 등)
-  //     Navigator.pushReplacementNamed(context, '/home');
-  //   } else {
-  //     // 로그인 실패 시 처리 (예: 오류 메시지 표시)
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(content: Text('Invalid credentials')),
-  //     );
-  //   }
-  //   // 여기에 실제 로그인 로직을 구현
-  //   //await AuthHelper.setLoginStatus(true);
-  //   //Navigator.pushReplacementNamed(context, '/home');
-  // }
-
   
   Future<void> saveUserId(String userId) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

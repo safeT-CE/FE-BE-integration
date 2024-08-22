@@ -24,6 +24,8 @@ class _FaceCamPageState extends State<FaceCamPage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
+  bool same = false; // 동일인 여부를 나타내는 변수 (true면 동일인, false면 동일인이 아님)
+
   @override
   void initState() {
     super.initState();
@@ -45,20 +47,57 @@ class _FaceCamPageState extends State<FaceCamPage> {
       await _initializeControllerFuture;
       final image = await _controller.takePicture();
       final faceImage = File(image.path);
-      await _uploadImages(faceImage);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => AuthDonePage(userInfo: widget.userInfo),
-        ),
-      );
+      String response = await _uploadImages(faceImage); // 응답을 받아옴
+
+      _showResponseDialog(response);
     } catch (e) {
       print(e);
     }
   }
 
-  Future<void> _uploadImages(File faceImage) async {
+  Future<String> _uploadImages(File faceImage) async {
     // 이미지 업로드를 서버에 수행하거나 필요한 작업 수행
+    if (same) {
+      return '면허증 사진과 동일인입니다.';  // same이 true일 경우
+    } else {
+      return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';  // same이 false일 경우
+    }
+  }
+
+  void _showResponseDialog(String response) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('동일인 여부'),
+          content: Text(response),
+          actions: [
+            if (same) ...[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // 팝업 닫기
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AuthDonePage(userInfo: widget.userInfo),
+                    ),
+                  );
+                },
+                child: Text('다음'),
+              ),
+            ] else ...[
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context); // 팝업 닫기
+                  // 동일인이 아닐 경우 다시 얼굴 촬영 시도
+                },
+                child: Text('다시 촬영'),
+              ),
+            ],
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -72,7 +111,19 @@ class _FaceCamPageState extends State<FaceCamPage> {
             future: _initializeControllerFuture,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.done) {
-                return CameraPreview(_controller);
+                return Center(
+                  child: AspectRatio(
+                    aspectRatio: _controller.value.aspectRatio,
+                    child: FittedBox(
+                      fit: BoxFit.cover,
+                      child: SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                        child: CameraPreview(_controller),
+                      ),
+                    ),
+                  ),
+                );
               } else {
                 return Center(child: CircularProgressIndicator());
               }
@@ -119,22 +170,16 @@ class _FaceCamPageState extends State<FaceCamPage> {
               ],
             ),
           ),
+          
           Positioned(
-            bottom: 50,
-            left: 16,
-            right: 16,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
+            bottom: 16,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: FloatingActionButton(
                 backgroundColor: safeTgreen,
-                minimumSize: Size(double.infinity, 50),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              onPressed: _takePicture,
-              child: Text(
-                '다음',
-                style: TextStyle(fontSize: 18),
+                onPressed: _takePicture,
+                child: Icon(Icons.camera_alt, size: 28),
               ),
             ),
           ),

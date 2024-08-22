@@ -152,7 +152,8 @@ class _TicketPurchasePageState extends State<TicketPurchasePage> {
                   // 수정 코드
                 
                   //
-    var url = Uri.parse('http://192.168.219.102:8080/ticket');
+    //var url = Uri.parse('http://192.168.219.102:8080/ticket');
+    var url = Uri.parse('http://172.30.1.35:8080/ticket');
     var headers = {"Content-Type": "application/json"};
     var body = jsonEncode({
       'userId': userId
