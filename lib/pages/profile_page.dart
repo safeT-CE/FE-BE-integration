@@ -11,6 +11,12 @@ import 'payment_selection_page.dart';
 import 'penalty_page.dart';
 import 'ticket_purchase_page.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:safet/utils/constants.dart';
+import 'package:safet/utils/ProfileResponse.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -19,10 +25,31 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  String phoneNumber = '010-1234-5678';
+
+  String? phoneNumber;
+  String? grade;
+  int? point;
+  Duration? useTime;
+
   bool isEditingPhoneNumber = false;
 
   final TextEditingController _phoneNumberController = TextEditingController();
+
+  // user 정보 불러옴
+  Future<ProfileResponse?> fetchPhoneNumber(String userId) async {
+    final url = Uri.parse('${baseUrl}profile/$userId'); // 서버 API URL
+    print(url);
+    final response = await http.get(url);
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return ProfileResponse.fromJson(data);
+    } else {
+      // 오류 처리
+      return null;
+    }
+  }
+
 
   @override
   void initState() {
@@ -31,16 +58,31 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _loadSettings() async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      phoneNumber = prefs.getString('phoneNumber') ?? '010-1234-5678';
-      _phoneNumberController.text = phoneNumber;
-    });
+    //final prefs = await SharedPreferences.getInstance();
+    //final userId = prefs.getString('userId');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+
+    if (userId != null) {
+      final profile = await fetchPhoneNumber(userId);  // API를 통해 전화번호 가져옴
+      if (profile != null) {
+        setState(() {
+          phoneNumber = profile.phone;
+          _phoneNumberController.text = phoneNumber ?? '-';
+          grade = profile.grade;
+          _phoneNumberController.text = grade.toString() ?? '-';
+          point = profile.point;
+          _phoneNumberController.text = point.toString() ?? '-';
+          useTime = profile.useTime;
+          _phoneNumberController.text = useTime.toString() ?? '-'; 
+        });
+      }
+    }
   }
 
   void _saveSettings() async {
     final prefs = await SharedPreferences.getInstance();
-    prefs.setString('phoneNumber', phoneNumber);
+    //prefs.setString('phoneNumber', phoneNumber);  // 여기 수정 필요!
   }
 
   @override
@@ -153,10 +195,10 @@ class _ProfilePageState extends State<ProfilePage> {
                       children: [
                         Image.asset('assets/image/seed.png', width: 50, height: 50),
                         const SizedBox(width: 8),
-                        const Expanded(
+                        Expanded(
                           child: Text(
-                            'LV 5 \n 이용시간: \n 누적 이동 거리: \n',
-                            style: TextStyle(fontSize: 16),
+                            'LV : $grade \n 누적 벌점 : $point \n 이용시간:  $useTime \n',
+                            style: const TextStyle(fontSize: 16),
                           ),
                         ),
                       ],

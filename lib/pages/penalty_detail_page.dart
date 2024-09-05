@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:safet/main.dart';
 
 import 'one_on_one_inquiry_page.dart';
-import 'violation_data.dart';
 import '../models/penalty_detail.dart';
 import '../utils/penalty_data.dart';
 import 'package:intl/intl.dart';  // 날짜
@@ -13,6 +12,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../utils/penalty_data.dart';
 import '../models/penalty_detail.dart';
+import 'package:safet/utils/constants.dart';
 
 class PenaltyDetailPage extends StatelessWidget {
   final int penaltyId;
@@ -24,7 +24,7 @@ class PenaltyDetailPage extends StatelessWidget {
     String? userId = prefs.getString('userId');
 
     final response = await http.get(
-      Uri.parse('http://192.168.219.103:8080/penalty/check/detail?userId=$userId&penaltyId=$penaltyId'));
+      Uri.parse('${baseUrl}penalty/check/detail?userId=$userId&penaltyId=$penaltyId'));
     
     //print('Response status: ${response.statusCode}');
     //print('Response body: ${response.body}');

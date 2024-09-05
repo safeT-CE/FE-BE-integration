@@ -7,6 +7,7 @@ import '../utils/auth_helper.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safet/utils/constants.dart';
 
 class LoginPage extends StatefulWidget { 
   @override
@@ -29,7 +30,7 @@ class _LoginPageState extends State<LoginPage> {
     var body = json.encode(data);
     
     final response = await client.post(
-        Uri.parse("http://192.168.219.103:8080/auth/login"),
+        Uri.parse("${baseUrl}auth/login"),
         headers: {"Content-Type": "application/json"}, 
         body: body);
     

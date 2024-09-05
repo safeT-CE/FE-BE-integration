@@ -31,7 +31,6 @@ import 'pages/profile_page.dart';
 import 'pages/rent_page.dart';
 import 'pages/return_page.dart';
 import 'pages/splash_page.dart';
-import 'pages/violation_data.dart';
 
 const Color safeTblack = Color(0xFF1A1A1A);
 const Color safeTgray = Color(0xFFA1A1A1);
@@ -61,7 +60,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => InquiryData()),
-        ChangeNotifierProvider(create: (context) => ViolationData()),
+        //ChangeNotifierProvider(create: (context) => penalty_data()),
         ChangeNotifierProvider(create: (context) => DetailedUsageData())
       ],
       child: MaterialApp(

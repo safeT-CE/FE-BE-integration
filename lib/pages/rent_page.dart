@@ -128,7 +128,7 @@ class _RentPageState extends State<RentPage> {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text('배터리 정보'),
-          content: Text('배터리가 NN% 남은 기기입니다. 대여하시겠습니까?'),
+          content: Text('배터리가 85% 남은 기기입니다.\n대여하시겠습니까?'),
           actions: <Widget>[
             TextButton(
               onPressed: () {

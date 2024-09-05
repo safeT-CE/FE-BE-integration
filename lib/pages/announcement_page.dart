@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:safet/main.dart';
 
+import 'package:safet/utils/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:intl/intl.dart';
+
 class AnnouncementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -25,66 +30,87 @@ class AnnouncementList extends StatefulWidget {
   _AnnouncementListState createState() => _AnnouncementListState();
 }
 
+// 
 class _AnnouncementListState extends State<AnnouncementList> {
+  List<dynamic> announcements = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchAnnouncements(); // 공지사항 데이터를 API에서 가져옴
+  }
+
+  // 공지사항 데이터를 API에서 가져오는 함수
+  Future<void> _fetchAnnouncements() async {
+    final url = Uri.parse('${baseUrl}notices');
+    try {
+      final response = await http.get(url);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+
+        setState(() {
+            announcements = data..sort((a, b) {
+            DateTime dateA = DateTime.parse(a['createdAt']);
+            DateTime dateB = DateTime.parse(b['createdAt']);
+            return dateB.compareTo(dateA);  // 최신순으로 정렬 (내림차순)
+          });
+          isLoading = false; // 데이터 로딩 완료 후 상태 변경
+        });
+      } else {
+        throw Exception('Failed to load announcements');
+      }
+    } catch (e) {
+      print('Error: $e');
+      setState(() {
+        isLoading = false; // 오류 발생 시에도 로딩을 멈춤
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      children: [
-        AnnouncementTile(
-          title: '2024년 이용권 업그레이드 안내',
-          date: '2024.07.01',
-          content: '2024년부터 새로운 이용권 업그레이드가 진행됩니다.',
-        ),
-        AnnouncementTile(
-          title: '벌점 안내 : 제한 범위',
-          date: '2024.06.12',
-          content: '벌점 제한 범위에 대한 자세한 안내입니다.',
-        ),
-        AnnouncementTile(
-          title: '변경된 이용 방법 공지',
-          date: '2024.05.10',
-          content: '이용 방법이 일부 변경되었습니다.',
-        ),
-        AnnouncementTile(
-          title: '데이터 삭제 안내',
-          date: '2024.02.20',
-          content: '데이터 삭제에 대한 안내입니다.',
-        ),
-        AnnouncementTile(
-          title: '벌점 안내 : 제한 범위',
-          date: '2024.01.30',
-          content: '벌점 제한 범위에 대한 반복 안내입니다.',
-        ),
-        AnnouncementTile(
-          title: 'OO 대여소 폐쇄 안내',
-          date: '2024.01.10',
-          content:
-              'Lorem ipsum dolor sit amet consectetur. Sapien at sapien tincidunt amet libero viverra arcu elit. Habitant habitant sollicitudin tempor imperdiet pharetra dignissim dignissim lobortis.',
-        ),
-        AnnouncementTile(
-          title: '크리스마스 이벤트',
-          date: '2023.12.25',
-          content: '크리스마스 이벤트가 준비되어 있습니다.',
-        ),
-        AnnouncementTile(
-          title: '결제 방법',
-          date: '2023.12.24',
-          content: '결제 방법에 대한 자세한 안내입니다.',
-        ),
-      ],
-    );
+    return isLoading
+        ? Center(child: CircularProgressIndicator()) // 로딩 중일 때 표시
+        : ListView.builder(
+            itemCount: announcements.length,
+            itemBuilder: (context, index) {
+              final announcement = announcements[index];
+
+              // DateTime을 String으로 포맷
+              DateTime createdAt = DateTime.parse(announcement['createdAt']);
+              String createdDate = DateFormat('yyyy.MM.dd').format(createdAt);
+
+              DateTime updatedAt = DateTime.parse(announcement['updatedAt']);
+              String updatedDate = DateFormat('yyyy.MM.dd').format(updatedAt);
+              
+
+              return AnnouncementTile(
+                id: announcement['id'],
+                title: announcement['title'],
+                content: announcement['content'],
+                createdAt: createdDate,
+                updatedAt: updatedDate  // 포맷된 날짜 전달
+              );
+            },
+          );
   }
 }
 
 class AnnouncementTile extends StatelessWidget {
+  final int id;
   final String title;
-  final String date;
   final String content;
+  final String createdAt;
+  final String updatedAt;
 
   AnnouncementTile({
+    required this.id,
     required this.title,
-    required this.date,
     required this.content,
+    required this.createdAt,
+    required this.updatedAt
   });
 
   @override
@@ -93,23 +119,22 @@ class AnnouncementTile extends StatelessWidget {
       title: Text(
         title,
         style: TextStyle(
-          color: safeTblack, // title 색상을 safeTblack으로 변경
+          color: safeTblack,
           fontWeight: FontWeight.bold,
         ),
       ),
       subtitle: Text(
-        date,
-        style: TextStyle(color: safeTgray), // date 색상을 safeTgray으로 변경
+        createdAt,
+        style: TextStyle(color: safeTgray),
       ),
-      iconColor: safeTlightgreen, // 화살표 아이콘 색상 safeTlightgreen으로 변경
-      collapsedIconColor: safeTlightgreen, // 펼쳐지기 전 아이콘 색상도 safeTlightgreen으로 설정
+      iconColor: safeTlightgreen,
+      collapsedIconColor: safeTlightgreen,
       children: [
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: Text(content),
         ),
       ],
-      // 경계선 색상을 safeTlightgreen으로 변경
       shape: Border(
         top: BorderSide(color: Colors.white),
         bottom: BorderSide(color: safeTlightgreen),
@@ -120,10 +145,4 @@ class AnnouncementTile extends StatelessWidget {
       ),
     );
   }
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: AnnouncementPage(),
-  ));
 }
