@@ -38,10 +38,9 @@ class _AnnouncementListState extends State<AnnouncementList> {
   @override
   void initState() {
     super.initState();
-    _fetchAnnouncements(); // 공지사항 데이터를 API에서 가져옴
+    _fetchAnnouncements();
   }
 
-  // 공지사항 데이터를 API에서 가져오는 함수
   Future<void> _fetchAnnouncements() async {
     final url = Uri.parse('${baseUrl}notices');
     try {
@@ -54,7 +53,7 @@ class _AnnouncementListState extends State<AnnouncementList> {
             announcements = data..sort((a, b) {
             DateTime dateA = DateTime.parse(a['createdAt']);
             DateTime dateB = DateTime.parse(b['createdAt']);
-            return dateB.compareTo(dateA);  // 최신순으로 정렬 (내림차순)
+            return dateB.compareTo(dateA);  // 최신순
           });
           isLoading = false; // 데이터 로딩 완료 후 상태 변경
         });
@@ -64,7 +63,7 @@ class _AnnouncementListState extends State<AnnouncementList> {
     } catch (e) {
       print('Error: $e');
       setState(() {
-        isLoading = false; // 오류 발생 시에도 로딩을 멈춤
+        isLoading = false;
       });
     }
   }

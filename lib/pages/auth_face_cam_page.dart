@@ -5,6 +5,12 @@ import 'package:safet/main.dart';
 import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
 
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:safet/utils/constants.dart';
+import 'package:path/path.dart' as p;
+import 'package:shared_preferences/shared_preferences.dart';
+
 class FaceCamPage extends StatefulWidget {
   final CameraDescription frontCamera;
   final File licenseImage;
@@ -57,11 +63,72 @@ class _FaceCamPageState extends State<FaceCamPage> {
 
   Future<String> _uploadImages(File faceImage) async {
     // 이미지 업로드를 서버에 수행하거나 필요한 작업 수행
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+      
+      // 이미지 업로드를 위한 multipart request 생성
+      var request = http.MultipartRequest(
+        'POST', 
+        Uri.parse('${baseUrl}face/request'),
+      );
+
+      // 사용자 아이디 추가
+      request.fields['userId'] = userId ?? '';
+
+      // 면허증 사진 추가
+      var licenseImageStream = http.ByteStream(widget.licenseImage.openRead());
+      var licenseImageLength = await widget.licenseImage.length();
+      request.files.add(
+        http.MultipartFile(
+          'licenseImage',
+          licenseImageStream,
+          licenseImageLength,
+          filename: p.basename(widget.licenseImage.path),
+        ),
+      );
+
+      // 얼굴 사진 추가
+      var faceImageStream = http.ByteStream(faceImage.openRead());
+      var faceImageLength = await faceImage.length();
+      request.files.add(
+        http.MultipartFile(
+          'faceImage',
+          faceImageStream,
+          faceImageLength,
+          filename: p.basename(faceImage.path),
+        ),
+      );
+
+      // 요청 전송
+      var response = await request.send();
+
+      if (response.statusCode == 200) {
+        // 응답 바디 읽기
+        var responseBody = await http.Response.fromStream(response);
+        var jsonResponse = jsonDecode(responseBody.body);
+
+        // 서버에서 동일인 여부를 반환했다고 가정
+        same = jsonResponse['samePerson'] as bool;
+
+        if (same) {
+          return '면허증 사진과 동일인입니다.';
+        } else {
+          return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';
+        }
+      } else {
+        return '서버 오류가 발생했습니다. 다시 시도해주세요.';
+      }
+    } catch (e) {
+      print('Error uploading images: $e');
+      return '이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.';
+    }
+    /*
     if (same) {
       return '면허증 사진과 동일인입니다.';  // same이 true일 경우
     } else {
       return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';  // same이 false일 경우
-    }
+    }*/
   }
 
   void _showResponseDialog(String response) {
