@@ -1,8 +1,21 @@
 import 'package:flutter/material.dart';
+import '../models/faq.dart'; // FAQService import
+import 'faq_tile.dart';
 
-import 'inquiry_tile.dart';
+class FAQPage extends StatefulWidget {
+  @override
+  _FAQPageState createState() => _FAQPageState();
+}
 
-class FAQPage extends StatelessWidget {
+class _FAQPageState extends State<FAQPage> {
+  late Future<List<FAQ>> _faqs;
+
+  @override
+  void initState() {
+    super.initState();
+    _faqs = FAQService().getAllFAQs();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -10,25 +23,26 @@ class FAQPage extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
       ),
       child: Scaffold(
-        body: Container(
-          color: Colors.white,
-          child: ListView(
-            children: [
-              InquiryTile(
-                question: '킥보드 대여는 어떻게 하나요?',
-                answer: '킥보드 대여는 회원 가입 후 가능합니다.',
-                date: '2024-06-10',
-                image: null,
-              ),
-              InquiryTile(
-                question: '대여는 몇 시간 동안 가능한가요?',
-                answer: '대여는 연속 최대 4시간까지 가능합니다.',
-                date: '2024-06-10',
-                image: null,
-              ),
-              // 추가 문의 항목
-            ],
-          ),
+        body: FutureBuilder<List<FAQ>>(
+          future: _faqs,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return Center(child: Text('No FAQs available.'));
+            } else {
+              return ListView(
+                children: snapshot.data!.map((faq) => FaqTile(
+                  id: faq.id,
+                  question: faq.question,
+                  answer: faq.answer,
+                  date: faq.date,
+                )).toList(),
+              );
+            }
+          },
         ),
       ),
     );

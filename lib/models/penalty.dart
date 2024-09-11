@@ -18,12 +18,12 @@ class Penalty {
       date: DateTime.parse(json['date']),
       photo : json['photo'] ?? '',
       totalCount: json['totalCount'] ?? 0, // 기본값 0으로 설정
-      map: json['map'] != null 
+      map: (json['map'] != null && json['map'] is Map<String, dynamic>) 
         ? {
             'latitude': json['map']['latitude']?.toDouble() ?? 0.0,
             'longitude': json['map']['longitude']?.toDouble() ?? 0.0,
           } 
-        : {}, // map이 null인 경우 빈 맵으로 설정
+        : {'latitude': 0.0, 'longitude': 0.0}, // map이 null인 경우 빈 맵으로 설정
     );
   }
 }

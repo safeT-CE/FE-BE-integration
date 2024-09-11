@@ -13,6 +13,7 @@ import 'dart:convert';
 import '../utils/penalty_data.dart';
 import '../models/penalty_detail.dart';
 import 'package:safet/utils/constants.dart';
+import 'package:kakao_map_plugin/kakao_map_plugin.dart'; // Kakao Map 패키지 추가
 
 class PenaltyDetailPage extends StatelessWidget {
   final int penaltyId;
@@ -76,6 +77,8 @@ class PenaltyDetailPage extends StatelessWidget {
                 title: const Text('벌점 상세'),
                 backgroundColor: Colors.white,
                 foregroundColor: Colors.black,
+                elevation: 0,
+                centerTitle: true,
               ),
               backgroundColor: Colors.white,
               body: SingleChildScrollView(
@@ -92,35 +95,94 @@ class PenaltyDetailPage extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // 위반 제목과 닫기 버튼
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 penalty.content,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.red,
                                   fontSize: 20,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
+                              IconButton(
+                                icon: Icon(Icons.close),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 16),
+                          Divider(), // 구분선 추가
+                          const SizedBox(height: 16),
+                          
+                          // 날짜 정보
                           Text(
                             '위반 날짜: ${formattedDate}',
                             style: const TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            '위반 위치: ${penalty.location}',
-                            style: const TextStyle(fontSize: 16),
+                          // 시간 정보
+                          Row(
+                            children: [
+                              Icon(Icons.access_time, size: 16, color: Colors.grey),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${formattedDate}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            '누적 횟수: ${penalty.totalCount}회',
-                            style: const TextStyle(fontSize: 16),
+                          // 위치 정보
+                          Row(
+                            children: [
+                              Icon(Icons.location_on, size: 16, color: Colors.grey),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${penalty.location}',
+                                style: const TextStyle(fontSize: 16),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 16),
+                          Divider(), // 구분선 추가
+                          const SizedBox(height: 16),
+
+                          // 지도 표시
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: 200, // 지도 높이 설정
+                              child: KakaoMap(
+                                onMapCreated: (controller) {
+                                  // 필요시 mapController 저장
+                                },
+                                center: LatLng(
+                                  penalty.map['latitude'] ?? 0.0,
+                                  penalty.map['longitude'] ?? 0.0,
+                                ), // 쉼표 누락 수정
+                                markers: [
+                                  Marker(
+                                    markerId: UniqueKey().toString(),
+                                    latLng: LatLng(
+                                      penalty.map['latitude'] ?? 0.0, // null-safe 확인
+                                      penalty.map['longitude'] ?? 0.0, // null-safe 확인
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          
+                          Divider(), // 구분선 추가
+                          const SizedBox(height: 16),
+
+                          // 이미지 표시
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8.0),
                             child: Image.network(
@@ -131,11 +193,18 @@ class PenaltyDetailPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
+
+                          Divider(), // 구분선 추가
+                          const SizedBox(height: 16),
+
+                          // 삭제 안내 문구
                           Text(
-                            '본 기록은 7일 후 자동으로 삭제됩니다.',
+                            '본 기록은 30일 후 자동으로 삭제됩니다.\n기록 삭제와 동시에 알림도 전송됩니다.',
                             style: TextStyle(fontSize: 14, color: Colors.grey),
                           ),
                           const SizedBox(height: 16),
+
+                          // 문의하기 버튼
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(
@@ -144,7 +213,7 @@ class PenaltyDetailPage extends StatelessWidget {
                                   builder: (context) => OneOnOneInquiryPage(
                                     initialCategory: '벌점',
                                     initialTitle: penalty.content,
-                                    fromPenaltyDate: formattedDate,
+                                    fromPenaltyDate: penalty.date.toIso8601String(),
                                     imagePath: penalty.photo,
                                   ),
                                 ),
