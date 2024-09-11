@@ -33,7 +33,7 @@ class AuthPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: safeTgreen,
-                foregroundColor: Colors.white,//이거 수정으로 넣었어
+                foregroundColor: Colors.white,
               ),
               child: Text('로그인'),
             ),
@@ -44,7 +44,7 @@ class AuthPage extends StatelessWidget {
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: safeTgreen,
-                foregroundColor: Colors.white,//이거도 수정으로 넣었어
+                foregroundColor: Colors.white,
               ),
               child: Text('회원가입'),
             ),
