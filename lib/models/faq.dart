@@ -13,7 +13,8 @@ class FAQService {
     );
     
     if (response.statusCode == 200) {
-      List<dynamic> data = json.decode(response.body);
+      //List<dynamic> data = json.decode(response.body);
+      List<dynamic> data = jsonDecode(utf8.decode(response.bodyBytes));
       return data.map((json) => FAQ.fromJson(json)).toList();
     } else {
       throw Exception('Failed to load FAQs');
