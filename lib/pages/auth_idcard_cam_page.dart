@@ -260,13 +260,18 @@ class _IdCamPageState extends State<IdCamPage> {
             left: 0,
             right: 0,
             child: Center(
-              child: FloatingActionButton(
-                backgroundColor: safeTgreen,
-                onPressed: _processImage,
-                child: Icon(Icons.camera_alt, size: 28),
+              child: SizedBox(
+                width: 80,  // 버튼의 크기 조정
+                height: 80,  // 버튼의 크기 조정
+                child: FloatingActionButton(
+                  backgroundColor: safeTgreen,
+                  onPressed: _processImage,
+                  child: Icon(Icons.camera_alt, size: 28),
+                ),
               ),
             ),
           ),
+          SizedBox(height: 30),
         ],
       ),
     );

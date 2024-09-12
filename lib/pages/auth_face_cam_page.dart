@@ -30,7 +30,7 @@ class _FaceCamPageState extends State<FaceCamPage> {
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
-  bool same = false; // 동일인 여부를 나타내는 변수 (true면 동일인, false면 동일인이 아님)
+  bool same = true; // 동일인 여부를 나타내는 변수 (true면 동일인, false면 동일인이 아님)
 
   @override
   void initState() {
@@ -136,6 +136,7 @@ class _FaceCamPageState extends State<FaceCamPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
+          backgroundColor: Colors.white,  // 팝업 배경색 흰색으로 지정
           title: Text('동일인 여부'),
           content: Text(response),
           actions: [
@@ -243,13 +244,18 @@ class _FaceCamPageState extends State<FaceCamPage> {
             left: 0,
             right: 0,
             child: Center(
-              child: FloatingActionButton(
-                backgroundColor: safeTgreen,
-                onPressed: _takePicture,
-                child: Icon(Icons.camera_alt, size: 28),
+              child: SizedBox(
+                width: 80,  // 버튼의 크기 조정
+                height: 80,  // 버튼의 크기 조정
+                child: FloatingActionButton(
+                  backgroundColor: safeTgreen,
+                  onPressed: _takePicture,
+                  child: Icon(Icons.camera_alt, size: 28),
+              ),
               ),
             ),
           ),
+          SizedBox(height: 30),
         ],
       ),
     );

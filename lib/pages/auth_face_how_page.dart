@@ -117,7 +117,7 @@ class _FaceHowPageState extends State<FaceHowPage> {
               },
               child: Text(
                 '다음',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18,color: Colors.white),
               ),
             ),
           ],

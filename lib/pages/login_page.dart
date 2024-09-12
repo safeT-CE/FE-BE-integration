@@ -67,13 +67,15 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Padding(
+      body: SingleChildScrollView( // 스크롤을 가능하게 하는 위젯 추가
+      child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             //Image.asset('assets/image/safeT.png', height: 80),
+            SizedBox(height: 120),
             Text(
           'safeT',
           textAlign: TextAlign.center,
@@ -92,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
             //     color: safeTgray,
             //   ),
             // ),
-            SizedBox(height: 32),
+            SizedBox(height: 80),
             TextField(
               controller: _phoneController,
               decoration: InputDecoration(
@@ -118,6 +120,9 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               keyboardType: TextInputType.phone,
+              style: TextStyle(
+              color: safeTblack, // 입력된 숫자의 텍스트 색상 설정
+              ),
             ),
             SizedBox(height: 4),
             Row(
@@ -189,7 +194,8 @@ class _LoginPageState extends State<LoginPage> {
             //     ),
             //   ],
             // ),
-          ],
+            ],
+          ),
         ),
       ),
     );
