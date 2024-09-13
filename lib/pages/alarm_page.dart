@@ -42,8 +42,12 @@ class AlarmPage extends StatelessWidget {
           '벌점 알림',
           style: TextStyle(color: Colors.black),
         ),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: safeTgreen),
+          elevation: 0,
       ),
       backgroundColor: Colors.white,
+      
       body: PenaltyList(),
     );
   }

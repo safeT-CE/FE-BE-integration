@@ -1,19 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:safet/main.dart';
-
-import 'one_on_one_inquiry_page.dart';
-import '../models/penalty_detail.dart';
-import '../utils/penalty_data.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';  // 날짜
-
+import 'package:kakao_map_plugin/kakao_map_plugin.dart'; // Kakao Map 패키지 추가
+import 'package:safet/main.dart';
+import 'package:safet/utils/constants.dart';
 // backend 연동 중 추가
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../utils/penalty_data.dart';
+
 import '../models/penalty_detail.dart';
-import 'package:safet/utils/constants.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart'; // Kakao Map 패키지 추가
+import 'one_on_one_inquiry_page.dart';
 
 class PenaltyDetailPage extends StatelessWidget {
   final int penaltyId;
@@ -50,6 +47,9 @@ class PenaltyDetailPage extends StatelessWidget {
               title: const Text('벌점 상세'),
               backgroundColor: Colors.white,
               foregroundColor: Colors.black,
+              centerTitle: true,
+              elevation: 0,
+              iconTheme: IconThemeData(color: safeTgreen),
             ),
             body: const Center(child: CircularProgressIndicator()),  // 로딩 스피너
           );
@@ -79,6 +79,7 @@ class PenaltyDetailPage extends StatelessWidget {
                 foregroundColor: Colors.black,
                 elevation: 0,
                 centerTitle: true,
+                iconTheme: IconThemeData(color: safeTgreen),
               ),
               backgroundColor: Colors.white,
               body: SingleChildScrollView(

@@ -12,8 +12,11 @@ class ReturnPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('반납하기'),
-          backgroundColor: Colors.white, 
+          backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          iconTheme: IconThemeData(color: safeTgreen),
         ),
         body: Container(
           color: Colors.white, 

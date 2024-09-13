@@ -81,6 +81,8 @@ class _OneOnOneInquiryPageState extends State<OneOnOneInquiryPage> {
           backgroundColor: Colors.white, // AppBar 배경색 흰색으로 설정
           foregroundColor: Colors.black, // AppBar 텍스트 색상 검정으로 설정
           iconTheme: IconThemeData(color: Colors.black), // AppBar 아이콘 색상 검정으로 설정
+          elevation: 0,
+          centerTitle: true,
         ),
         backgroundColor: Colors.white, // 전체 배경색 흰색으로 설정
         body: Padding(
