@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
+import 'package:safet/models/auth_user_data.dart';
 import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
 import 'package:safet/pages/auth_face_cam_page.dart';
@@ -61,7 +62,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (context) => InquiryData()),
         //ChangeNotifierProvider(create: (context) => penalty_data()),
-        ChangeNotifierProvider(create: (context) => DetailedUsageData())
+        ChangeNotifierProvider(create: (context) => DetailedUsageData()),
+        ChangeNotifierProvider(create: (context) => AuthUserData()),
       ],
       child: MaterialApp(
             title: 'SafeT',

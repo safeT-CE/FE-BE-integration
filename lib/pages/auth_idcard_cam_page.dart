@@ -9,7 +9,9 @@ import 'dart:async';
 class IdCamPage extends StatefulWidget {
   final CameraDescription camera;
 
-  IdCamPage({required this.camera});
+  IdCamPage({
+    required this.camera
+  });
 
   @override
   _IdCamPageState createState() => _IdCamPageState();

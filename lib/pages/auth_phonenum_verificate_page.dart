@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
 import 'package:safet/main.dart';
+
+import 'package:http/http.dart' as http;
+import 'package:safet/models/auth_user_data.dart';
+import 'dart:convert';
+import 'package:safet/utils/constants.dart';
+import 'package:provider/provider.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
   final String phoneNumber;
@@ -56,11 +61,74 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     startTimer();
   }
 
-  void _submitCode() {
+// 연동 추가
+  Future<void> _submitCode() async {
     String code = _controllers.map((controller) => controller.text).join();
-    print('인증번호: $code');//유저가 입력한 인증 번호 터미널에 출력->추후에 백이랑 연결 했을때 비교에 이용
-    Navigator.pushNamed(context, '/auth_id_how');
+    print('인증번호: $code'); // 유저가 입력한 인증 번호 터미널에 출력
+
+    // POST 요청을 통해 서버에 데이터 전송
+    try {
+      /* 전화 인증
+      final response = await http.post(
+        Uri.parse('${baseUrl}sms-certification/confirm'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'phoneNumber': widget.phoneNumber,  // 전화번호
+          'certificationNumber': code,            // 인증번호
+        }),
+      );
+      */
+      final response = await http.post(
+        Uri.parse('${baseUrl}auth/join'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, String>{
+          'phone': widget.phoneNumber,  // 전화번호
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print('서버 응답 성공: ${response.body}');
+        Provider.of<AuthUserData>(context, listen: false).setUserId(response.body);
+        /*
+        final response = await http.post(
+          Uri.parse('${baseUrl}auth/join'),
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, String>{
+            'phoneNumber': widget.phoneNumber,  // 전화번호
+          }),
+        );
+        */
+        Navigator.pushNamed(context, '/auth_id_how');
+      } else {
+        print('서버 응답 실패: ${response.statusCode}');
+        // 오류 처리
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('인증 실패. 다시 시도해주세요.')),
+        );
+      }
+    } catch (e) {
+      print('오류 발생: $e');
+      // 네트워크 오류 처리
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('네트워크 오류. 다시 시도해주세요.')),
+      );
+    }
   }
+
+
+  // void _submitCode() {
+  //   String code = _controllers.map((controller) => controller.text).join();
+  //   print('인증번호: $code');//유저가 입력한 인증 번호 터미널에 출력->추후에 백이랑 연결 했을때 비교에 이용
+  //   // 인증 성공 후 Provider에 전화번호 저장
+  // Provider.of<AuthUserData>(context, listen: false).setPhoneNumber(widget.phoneNumber);
+  //   Navigator.pushNamed(context, '/auth_id_how');
+  // }
 
   @override
   Widget build(BuildContext context) {

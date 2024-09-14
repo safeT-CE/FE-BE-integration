@@ -1,7 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:safet/main.dart'; 
+import 'package:safet/main.dart';
+import 'package:safet/models/auth_user_data.dart'; 
 import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
 
@@ -10,12 +11,14 @@ import 'dart:convert';
 import 'package:safet/utils/constants.dart';
 import 'package:path/path.dart' as p;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class FaceCamPage extends StatefulWidget {
   final CameraDescription frontCamera;
   final File licenseImage;
   final UserInfo userInfo;
 
+  
   FaceCamPage({
     required this.frontCamera,
     required this.userInfo,
@@ -26,7 +29,9 @@ class FaceCamPage extends StatefulWidget {
   _FaceCamPageState createState() => _FaceCamPageState();
 }
 
+
 class _FaceCamPageState extends State<FaceCamPage> {
+  
   late CameraController _controller;
   late Future<void> _initializeControllerFuture;
 
@@ -64,8 +69,7 @@ class _FaceCamPageState extends State<FaceCamPage> {
   Future<String> _uploadImages(File faceImage) async {
     // 이미지 업로드를 서버에 수행하거나 필요한 작업 수행
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? userId = prefs.getString('userId');
+      String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
       
       // 이미지 업로드를 위한 multipart request 생성
       var request = http.MultipartRequest(
@@ -102,22 +106,30 @@ class _FaceCamPageState extends State<FaceCamPage> {
 
       // 요청 전송
       var response = await request.send();
+      var responseBody = await http.Response.fromStream(response);
+      var jsonResponse = jsonDecode(responseBody.body);
+      String same = jsonResponse['samePerson'] ?? "-";
 
       if (response.statusCode == 200) {
         // 응답 바디 읽기
-        var responseBody = await http.Response.fromStream(response);
-        var jsonResponse = jsonDecode(responseBody.body);
+        //var responseBody = await http.Response.fromStream(response);
+        //var jsonResponse = jsonDecode(responseBody.body);
 
         // 서버에서 동일인 여부를 반환했다고 가정
-        same = jsonResponse['samePerson'] as bool;
-
-        if (same) {
+        //same = jsonResponse['samePerson'] as bool;
+        if(same == "success"){
+          //_completeSignUp();
           return '면허증 사진과 동일인입니다.';
-        } else {
-          return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';
-        }
+        } else { return "";}
+
+        // if (same) {
+        //   //_completeSignUp();
+        //   return '면허증 사진과 동일인입니다.';
+        // } else {
+        //   return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';
+        // }
       } else {
-        return '서버 오류가 발생했습니다. 다시 시도해주세요.';
+        return same;
       }
     } catch (e) {
       print('Error uploading images: $e');
@@ -130,6 +142,29 @@ class _FaceCamPageState extends State<FaceCamPage> {
       return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';  // same이 false일 경우
     }*/
   }
+
+
+  /* 회원가입 완료되었을 때
+  void _completeSignUp() async {
+  // Provider에서 전화번호 가져오기
+  String? phoneNumber = Provider.of<AuthUserData>(context, listen: false).phoneNumber;
+  print(phoneNumber);
+  if (phoneNumber != null) {
+    // 회원가입 API 요청 보내기
+    final response = await http.post(
+      Uri.parse('${baseUrl}auth/join'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'phone': phoneNumber,  // 전화번호
+      }),
+    );
+    
+    // 회원가입 성공 시 전화번호 초기화
+    Provider.of<AuthUserData>(context, listen: false).clearPhoneNumber();
+  }
+}*/
 
   void _showResponseDialog(String response) {
     showDialog(
