@@ -244,7 +244,10 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
             backgroundColor: safeTgreen,
             minimumSize: Size(double.infinity, 50),
           ),
-          child: Text('확인'),
+          child: Text(
+            '확인',
+            style: TextStyle(color: Colors.white),
+            ),
         ),
       ),
     );

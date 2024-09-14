@@ -23,6 +23,10 @@ class _NumberInputPageState extends State<NumberInputPage> {
           title: Text('번호 입력'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          centerTitle: true,
+          iconTheme: IconThemeData(color: safeTgreen),
+          elevation: 0,
+
         ),
       body: Container(
         color: Colors.white, // 전체 배경색 지정

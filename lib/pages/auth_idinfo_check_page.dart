@@ -131,7 +131,7 @@ class _IdInfoCheckPageState extends State<IdInfoCheckPage> {
               },
               child: Text(
                 '다음',
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 18,color: Colors.white),
               ),
             ),
           ],

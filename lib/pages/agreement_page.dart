@@ -12,13 +12,13 @@ class _AgreementPageState extends State<AgreementPage> {
 
   // 약관 항목의 제목 리스트
   final List<String> _agreeTitles = [
-    '111111',
-    '222',
-    '33',
-    '4444',
-    '555555',
-    '66666',
-    '777777',
+    '서비스 이용약관',
+    '위치 기반 서비스 이용약관',
+    '개인정보 수집이용 동의',
+    '전자금융거래 이용약관 동의',
+    '전동킥보드 임대약관',
+    '카메라 사용 및 개인정보',
+    'SMS 수신동의',
   ];
 
   // 각 항목의 상세 내용 리스트
@@ -77,18 +77,23 @@ class _AgreementPageState extends State<AgreementPage> {
             children: [
               Row(
                 children: [
-                  Checkbox(
-                    value: _allAgree,
-                    onChanged: (bool? value) {
-                      setState(() {
-                        _allAgree = value!;
-                        for (int i = 0; i < _agreeList.length; i++) {
-                          _agreeList[i] = _allAgree;
-                        }
-                      });
-                    },
-                    activeColor: safeTgreen,
-                    checkColor: Colors.white,
+                  Theme(
+                    data: ThemeData(
+                      unselectedWidgetColor: safeTlightgreen, // 체크되지 않은 상태의 테두리 색상
+                    ),
+                    child:Checkbox(
+                      value: _allAgree,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          _allAgree = value!;
+                          for (int i = 0; i < _agreeList.length; i++) {
+                            _agreeList[i] = _allAgree;
+                          }
+                        });
+                      },
+                      activeColor: safeTgreen,
+                      checkColor: Colors.white,
+                    ),
                   ),
                   Text('약관 전체 동의'),
                 ],
@@ -138,7 +143,10 @@ class _AgreementPageState extends State<AgreementPage> {
                   ),
                   minimumSize: MaterialStateProperty.all<Size>(Size(double.infinity, 50)),
                 ),
-                child: Text('동의하고 진행'),
+                child: Text(
+                  '동의하고 진행',
+                style: TextStyle(color: Colors.white),
+                ),
               ),
             ],
           ),

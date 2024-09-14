@@ -26,6 +26,9 @@ class _RentPageState extends State<RentPage> {
           title: Text('대여하기'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          centerTitle: true,
+          elevation: 0,
+          iconTheme: IconThemeData(color: safeTgreen),
         ),
         body: Center(
           child: Column(

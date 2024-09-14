@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
@@ -27,7 +27,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     // MediaQuery에 접근할 수 있는 시점이므로 여기서 Animation을 초기화
     _animation = Tween<double>(
       begin: -200, // 시작 위치 (화면 왼쪽 바깥)
-      end: MediaQuery.of(context).size.width / 2 - 40, // 끝 위치 (화면 중앙에서 오른쪽으로 10픽셀 이동)
+      end: MediaQuery.of(context).size.width / 2 - 50, // 중앙에서 왼쪽으로 10픽셀 이동
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
@@ -49,7 +49,6 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
     bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     if (isLoggedIn) {
-      //Navigator.pushReplacementNamed(context, '/home');
       Navigator.pushReplacementNamed(context, '/auth');
     } else {
       Navigator.pushReplacementNamed(context, '/auth');
@@ -68,13 +67,18 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Center(
-            child: Text(
-              'safe',
-              style: TextStyle(
-                fontSize: 40,
-                fontFamily: "safeTtitle",
-                fontWeight: FontWeight.bold,
+          // 중앙에서 왼쪽으로 10픽셀 이동
+          Align(
+            alignment: Alignment.center,
+            child: Transform.translate(
+              offset: Offset(-10, 0),  // X축으로 10픽셀 왼쪽 이동
+              child: Text(
+                'safe',
+                style: TextStyle(
+                  fontSize: 40,
+                  fontFamily: "safeTtitle",
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),
@@ -82,7 +86,7 @@ class _SplashPageState extends State<SplashPage> with SingleTickerProviderStateM
             animation: _animation,
             builder: (context, child) {
               return Positioned(
-                left: _animation.value,
+                left: _animation.value, // 중앙에서 왼쪽으로 10픽셀 이동
                 top: MediaQuery.of(context).size.height / 2 - 50, // 화면 중앙
                 child: child!,
               );

@@ -159,6 +159,7 @@ class AuthDonePage extends StatelessWidget {
                 },
                 child: Text(
                   '확인',
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),

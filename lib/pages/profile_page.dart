@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:safet/pages/inquiry_page.dart';
+import 'package:safet/utils/ProfileResponse.dart';
+import 'package:safet/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -10,12 +15,6 @@ import 'login_page.dart';
 import 'payment_selection_page.dart';
 import 'penalty_page.dart';
 import 'ticket_purchase_page.dart';
-
-import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:safet/utils/constants.dart';
-import 'package:safet/utils/ProfileResponse.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -153,7 +152,9 @@ class _ProfilePageState extends State<ProfilePage> {
           title: Text('이용권 구매'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
+          centerTitle: true,
           elevation: 0,
+          iconTheme: IconThemeData(color: safeTgreen),
         ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(

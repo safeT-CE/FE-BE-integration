@@ -19,8 +19,9 @@ class PenaltyPage extends StatelessWidget {
           title: Text('벌점 기록'),
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
-          elevation: 0,
           centerTitle: true,
+          elevation: 0,
+          iconTheme: IconThemeData(color: safeTgreen),
         ),
         backgroundColor: Colors.white,
         body: Padding(
