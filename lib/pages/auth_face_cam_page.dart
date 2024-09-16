@@ -66,105 +66,85 @@ class _FaceCamPageState extends State<FaceCamPage> {
     }
   }
 
-  Future<String> _uploadImages(File faceImage) async {
-    // 이미지 업로드를 서버에 수행하거나 필요한 작업 수행
-    try {
-      String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
-      
-      // 이미지 업로드를 위한 multipart request 생성
-      var request = http.MultipartRequest(
-        'POST', 
-        Uri.parse('${baseUrl}face/request'),
-      );
+Future<String> _uploadImages(File faceImage) async {
+  try {
+    String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
 
-      // 사용자 아이디 추가
-      request.fields['userId'] = userId ?? '';
-
-      // 면허증 사진 추가
-      var licenseImageStream = http.ByteStream(widget.licenseImage.openRead());
-      var licenseImageLength = await widget.licenseImage.length();
-      request.files.add(
-        http.MultipartFile(
-          'licenseImage',
-          licenseImageStream,
-          licenseImageLength,
-          filename: p.basename(widget.licenseImage.path),
-        ),
-      );
-
-      // 얼굴 사진 추가
-      var faceImageStream = http.ByteStream(faceImage.openRead());
-      var faceImageLength = await faceImage.length();
-      request.files.add(
-        http.MultipartFile(
-          'faceImage',
-          faceImageStream,
-          faceImageLength,
-          filename: p.basename(faceImage.path),
-        ),
-      );
-
-      // 요청 전송
-      var response = await request.send();
-      var responseBody = await http.Response.fromStream(response);
-      var jsonResponse = jsonDecode(responseBody.body);
-      String same = jsonResponse['samePerson'] ?? "-";
-
-      if (response.statusCode == 200) {
-        // 응답 바디 읽기
-        //var responseBody = await http.Response.fromStream(response);
-        //var jsonResponse = jsonDecode(responseBody.body);
-
-        // 서버에서 동일인 여부를 반환했다고 가정
-        //same = jsonResponse['samePerson'] as bool;
-        if(same == "success"){
-          //_completeSignUp();
-          return '면허증 사진과 동일인입니다.';
-        } else { return "";}
-
-        // if (same) {
-        //   //_completeSignUp();
-        //   return '면허증 사진과 동일인입니다.';
-        // } else {
-        //   return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';
-        // }
-      } else {
-        return same;
-      }
-    } catch (e) {
-      print('Error uploading images: $e');
-      return '이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.';
-    }
-    /*
-    if (same) {
-      return '면허증 사진과 동일인입니다.';  // same이 true일 경우
-    } else {
-      return '동일인이 아닙니다.\nsafeT는 본인의 면허증으로만\n가입이 가능합니다.\n본인의 면허증일 경우,\n고객센터에 문의해주세요.';  // same이 false일 경우
-    }*/
-  }
-
-
-  /* 회원가입 완료되었을 때
-  void _completeSignUp() async {
-  // Provider에서 전화번호 가져오기
-  String? phoneNumber = Provider.of<AuthUserData>(context, listen: false).phoneNumber;
-  print(phoneNumber);
-  if (phoneNumber != null) {
-    // 회원가입 API 요청 보내기
-    final response = await http.post(
-      Uri.parse('${baseUrl}auth/join'),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, String>{
-        'phone': phoneNumber,  // 전화번호
-      }),
+    // 이미지 업로드를 위한 multipart request 생성
+    var request = http.MultipartRequest(
+      'POST', 
+      Uri.parse('${baseUrl}face/request'),
     );
+
+    // 사용자 아이디 추가
+    request.fields['userId'] = userId ?? '';
+
+    // 면허증 사진 추가
+    var licenseImageStream = http.ByteStream(widget.licenseImage.openRead());
+    var licenseImageLength = await widget.licenseImage.length();
+    request.files.add(
+      http.MultipartFile(
+        'licenseImage',
+        licenseImageStream,
+        licenseImageLength,
+        filename: p.basename(widget.licenseImage.path),
+      ),
+    );
+
+    // 얼굴 사진 추가
+    var faceImageStream = http.ByteStream(faceImage.openRead());
+    var faceImageLength = await faceImage.length();
+    request.files.add(
+      http.MultipartFile(
+        'faceImage',
+        faceImageStream,
+        faceImageLength,
+        filename: p.basename(faceImage.path),
+      ),
+    );
+
+    // 요청 전송 및 응답 처리
+    var response = await request.send();
+
+    var responseBody = await http.Response.fromStream(response);    
+    if (responseBody.body.isEmpty) {
+      throw FormatException('Empty response body');
+    }
+
+    // print('Response status: ${responseBody.statusCode}');
+    // print('Response Body:  ${responseBody.body}');
+
+    Map<String, dynamic> jsonResponse;
+    try {
+      jsonResponse = jsonDecode(responseBody.body);
+    } catch (e) {
+      print('JSON parsing error: $e');
+      return '응답 형식이 잘못되었습니다. 다시 시도해주세요.';
+    }
+
+    String same = jsonResponse['samePerson'];  // 서버에서 받은 결과 -> 예외처리 할 예정
     
-    // 회원가입 성공 시 전화번호 초기화
-    Provider.of<AuthUserData>(context, listen: false).clearPhoneNumber();
+    if (response.statusCode == 200) {
+      if (same == "success") {
+        return '면허증 사진과 동일인입니다.';
+      } else if (same == "not same") {
+        return '동일인이 아닙니다.\n본인의 면허증으로만 가입 가능합니다.';
+      } else if (same == "face no face" || same == "license no face"){
+        return "얼굴을 인식할 수 없습니다.\n면허증과 얼굴을 다시 인식해요주세요.";
+      }
+    } else if (response.statusCode == 500) {
+        return '서버에서 얼굴 인식 중 오류가 발생했습니다. 다시 시도해주세요.';
+    } else if (response.statusCode == 400) {
+      return '잘못된 요청입니다. 요청을 확인하고 다시 시도해주세요.';
+    } else {
+      return '알 수 없는 오류가 발생했습니다. 상태 코드: ${response.statusCode}';
+    }
+  } catch (e) {
+    print('Error uploading images: $e');
+    return '이미지 업로드 중 오류가 발생했습니다. 다시 시도해주세요.';
   }
-}*/
+  return '알 수 없는 오류가 발생했습니다.';
+}
 
   void _showResponseDialog(String response) {
     showDialog(
@@ -175,7 +155,7 @@ class _FaceCamPageState extends State<FaceCamPage> {
           title: Text('동일인 여부'),
           content: Text(response),
           actions: [
-            if (same) ...[
+            if (response == "면허증 사진과 동일인입니다.") ...[
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // 팝업 닫기
@@ -188,7 +168,7 @@ class _FaceCamPageState extends State<FaceCamPage> {
                 },
                 child: Text('다음'),
               ),
-            ] else ...[
+            ] else...[
               TextButton(
                 onPressed: () {
                   Navigator.pop(context); // 팝업 닫기
