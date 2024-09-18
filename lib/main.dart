@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:safet/models/auth_user_data.dart';
+import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
 import 'package:safet/pages/auth_face_cam_page.dart';
@@ -20,7 +21,7 @@ import 'pages/auth_idinfo_check_page.dart';
 import 'pages/auth_page.dart';
 import 'pages/home_page.dart';
 import 'pages/identification_page.dart';
-import 'pages/inquiry_data.dart';
+import 'models/inquiry_add_data.dart';
 import 'pages/lock_page.dart';
 import 'pages/login_page.dart';
 import 'pages/map_page.dart';
@@ -60,7 +61,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => InquiryData()),
+        //ChangeNotifierProvider(create: (context) => InquiryData()),
         //ChangeNotifierProvider(create: (context) => penalty_data()),
         ChangeNotifierProvider(create: (context) => DetailedUsageData()),
         ChangeNotifierProvider(create: (context) => AuthUserData()),
@@ -178,13 +179,13 @@ class MyApp extends StatelessWidget {
                   return MaterialPageRoute(builder: (context) => IdentificationPage());
                 case '/penalty':
                   return MaterialPageRoute(builder: (context) => PenaltyPage());
-                case '/one_on_one_inquiry':
-                  return MaterialPageRoute(
-                    builder: (context) => OneOnOneInquiryPage(
-                      initialCategory: '벌점',
-                      initialTitle: '벌점 기록에 대한 문의',
-                    ),
-                  );
+                // case '/one_on_one_inquiry':
+                //   return MaterialPageRoute(
+                //     builder: (context) => OneOnOneInquiryPage(
+                //       initialCategory: Category.penalty,
+                //       initialTitle: '벌점 기록에 대한 문의',
+                //     ),
+                //   );
                 default:
                   return MaterialPageRoute(builder: (context) => SplashPage());
                 

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';  // 날짜
 import 'package:kakao_map_plugin/kakao_map_plugin.dart'; // Kakao Map 패키지 추가
 import 'package:safet/main.dart';
+import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/utils/constants.dart';
 // backend 연동 중 추가
 import 'package:shared_preferences/shared_preferences.dart';
@@ -206,16 +207,15 @@ class PenaltyDetailPage extends StatelessWidget {
                           const SizedBox(height: 16),
 
                           // 문의하기 버튼
+                          /*
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => OneOnOneInquiryPage(
-                                    initialCategory: '벌점',
+                                    initialCategory: Category.penalty,
                                     initialTitle: penalty.content,
-                                    fromPenaltyDate: penalty.date.toIso8601String(),
-                                    imagePath: penalty.photo,
                                   ),
                                 ),
                               );
@@ -238,7 +238,7 @@ class PenaltyDetailPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),
+                          ),*/
                         ],
                       ),
                     ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:safet/models/inquiry_check_data.dart';
 
 import '../main.dart';
 import 'faq_page.dart';
@@ -38,22 +39,22 @@ class InquiryPage extends StatelessWidget {
             PersonalInquiryPage(),
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OneOnOneInquiryPage(
-                  initialCategory: '기타',
-                  initialTitle: '',
-                ),
-              ),
-            );
-          },
-          backgroundColor: safeTgreen,
-          foregroundColor: Colors.white,
-          child: const Icon(Icons.add),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   onPressed: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(
+        //         builder: (context) => OneOnOneInquiryPage(
+        //           initialCategory: Category.etc,
+        //           initialTitle: '',
+        //         ),
+        //       ),
+        //     );
+        //   },
+        //   backgroundColor: safeTgreen,
+        //   foregroundColor: Colors.white,
+        //   child: const Icon(Icons.add),
+        // ),
       ),
     );
   }
