@@ -120,15 +120,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
     }
   }
 
-
-  // void _submitCode() {
-  //   String code = _controllers.map((controller) => controller.text).join();
-  //   print('인증번호: $code');//유저가 입력한 인증 번호 터미널에 출력->추후에 백이랑 연결 했을때 비교에 이용
-  //   // 인증 성공 후 Provider에 전화번호 저장
-  // Provider.of<AuthUserData>(context, listen: false).setPhoneNumber(widget.phoneNumber);
-  //   Navigator.pushNamed(context, '/auth_id_how');
-  // }
-
   @override
   Widget build(BuildContext context) {
     String displayPhoneNumber = '0${widget.phoneNumber}'; 
