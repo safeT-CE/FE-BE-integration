@@ -20,12 +20,15 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
       _isLoading = true;  // 로딩 시작
     });
 
-    final url = Uri.parse('${baseUrl}auth/phone?phone=$phoneNumber');  // Spring Boot 서버의 URL
-    final response = await http.get(
+    final url = Uri.parse('${baseUrl}sms-certification/send');  // Spring Boot 서버의 URL
+    final response = await http.post(
       url,
       headers: {
         'Content-Type': 'application/json',
       },
+      body: jsonEncode({
+        'phone': phoneNumber
+      }),
     );
 
     setState(() {
@@ -33,9 +36,10 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
     });
 
     if (response.statusCode == 200) {
-      final message =utf8.decode(response.bodyBytes);
+      final decodedResponse = jsonDecode(utf8.decode(response.bodyBytes));
+      final responseMessage = decodedResponse['responseMessage'];
 
-      if (message == "Registrationable Number"){
+      if (responseMessage == "sms authentication send success"){
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -45,7 +49,7 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
           ),
         );
       } else{
-        _showErrorDialog(message);
+        _showErrorDialog(responseMessage);
       }
     } else {
       // 서버 오류

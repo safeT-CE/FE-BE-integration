@@ -68,45 +68,44 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
 
     // POST 요청을 통해 서버에 데이터 전송
     try {
-      /* 전화 인증
+      // 전화 인증
       final response = await http.post(
         Uri.parse('${baseUrl}sms-certification/confirm'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
         body: jsonEncode(<String, String>{
-          'phoneNumber': widget.phoneNumber,  // 전화번호
-          'certificationNumber': code,            // 인증번호
-        }),
-      );
-      */
-      final response = await http.post(
-        Uri.parse('${baseUrl}auth/join'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
           'phone': widget.phoneNumber,  // 전화번호
+          'certificationNumber': code,            // 인증번호
         }),
       );
 
       if (response.statusCode == 200) {
-        print('서버 응답 성공: ${response.body}');
+        print('전화번호 인증 서버 응답 성공: ${response.body}');
         Provider.of<AuthUserData>(context, listen: false).setUserId(response.body);
-        /*
-        final response = await http.post(
+        
+        // 기본 회원가입
+        final response2 = await http.post(
           Uri.parse('${baseUrl}auth/join'),
           headers: <String, String>{
             'Content-Type': 'application/json; charset=UTF-8',
           },
           body: jsonEncode(<String, String>{
-            'phoneNumber': widget.phoneNumber,  // 전화번호
+            'phone': widget.phoneNumber,  // 전화번호
           }),
         );
-        */
-        Navigator.pushNamed(context, '/auth_id_how');
+        if (response2.statusCode == 200) {
+          print('기본 회원가입 서버 응답 성공: ${response2.body}');
+          Navigator.pushNamed(context, '/auth_id_how');
+        } else {
+          print('기본 회원가입 서버 응답 실패: ${response.statusCode}');
+          // 오류 처리
+          ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('등록 실패. 다시 시도해주세요.')),
+          );
+        }
       } else {
-        print('서버 응답 실패: ${response.statusCode}');
+        print('전화번호 인증 서버 응답 실패: ${response.statusCode}');
         // 오류 처리
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('인증 실패. 다시 시도해주세요.')),
