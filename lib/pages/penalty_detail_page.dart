@@ -207,7 +207,6 @@ class PenaltyDetailPage extends StatelessWidget {
                           const SizedBox(height: 16),
 
                           // 문의하기 버튼
-                          /*
                           ElevatedButton(
                             onPressed: () {
                               Navigator.push(
@@ -238,7 +237,7 @@ class PenaltyDetailPage extends StatelessWidget {
                                 ),
                               ),
                             ),
-                          ),*/
+                          ),
                         ],
                       ),
                     ),

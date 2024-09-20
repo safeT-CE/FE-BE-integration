@@ -1,44 +1,76 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:safet/models/inquiry_check_data.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safet/utils/constants.dart';
 
 // 개인 문의 작성 시 들어가는 데이터
 
-class InquiryData extends ChangeNotifier {
-  final List<InquiryItem> _inquiries = [];
+Future<void> createInquiry(Inquiry inquiry) async {
+  // API 엔드포인트 설정
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  String? userId = prefs.getString('userId');
+  if (userId == null) {
+    throw Exception('User ID not found');
+  }
+  
+  final url = Uri.parse('${baseUrl}inquiries?userId=${userId}');
+  
+  // 요청 본문을 JSON 형식으로 변환
+  final body = jsonEncode(inquiry.toJson());
 
-  List<InquiryItem> get inquiries => _inquiries;
+  // HTTP POST 요청 전송
+  final response = await http.post(
+    url,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: body,
+  );
 
-  void addInquiry(int id, Category category, String title, String content, DateTime createdAt, {DateTime? respondedAt, String? response}) {
-    _inquiries.add(InquiryItem(
-      id: id,
-      category: category,
-      title: title,
-      content: content,
-      createdAt: createdAt, // DateFormat('yyyy년 M월 d일 H시 m분').format(createdAt) 
-      response: response,
-      respondedAt: respondedAt,
-    ));
-    notifyListeners();
+  // 응답 처리
+  if (response.statusCode == 201) {
+    print('Inquiry created successfully!');
+  } else {
+    print('Failed to create inquiry. Status code: ${response.statusCode}');
+    print('Response body: ${response.body}');
   }
 }
 
-class InquiryItem {
-  final int id;
+class Inquiry {
   final Category category;
-  final String title;
   final String content;
-  final DateTime createdAt;
-  final String? response;
-  final DateTime? respondedAt;
+  final String title;
 
-  InquiryItem({
-    required this.id,
+  Inquiry({
     required this.category,
-    required this.title,
     required this.content,
-    required this.createdAt,
-    this.response,
-    this.respondedAt
+    required this.title,
   });
+
+  // Inquiry 객체를 JSON으로 변환하는 메서드
+  Map<String, dynamic> toJson() {
+    return {
+      'category': _categoryToString(category),
+      'content': content,
+      'title': title,
+    };
+  }
+
+  String _categoryToString(Category category) {
+    switch (category) {
+      case Category.etc:
+        return 'etc';
+      case Category.payment:
+        return 'payment';
+      case Category.penalty:
+        return 'penalty';
+      case Category.userInfo:
+        return 'userInfo';
+      default:
+        return '';
+    }
+  }
 }

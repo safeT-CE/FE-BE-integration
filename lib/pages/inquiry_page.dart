@@ -39,22 +39,22 @@ class InquiryPage extends StatelessWidget {
             PersonalInquiryPage(),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //   onPressed: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(
-        //         builder: (context) => OneOnOneInquiryPage(
-        //           initialCategory: Category.etc,
-        //           initialTitle: '',
-        //         ),
-        //       ),
-        //     );
-        //   },
-        //   backgroundColor: safeTgreen,
-        //   foregroundColor: Colors.white,
-        //   child: const Icon(Icons.add),
-        // ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OneOnOneInquiryPage(
+                  initialCategory: Category.etc,
+                  initialTitle: '',
+                ),
+              ),
+            );
+          },
+          backgroundColor: safeTgreen,
+          foregroundColor: Colors.white,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }

@@ -67,18 +67,19 @@ class InquiryItem {
     );
   }
 
-  static Category _categoryFromString(String categoryString) {
-    switch (categoryString) {
-      case '기타':
+  // Category 변환 함수
+  static Category _categoryFromString(String category) {
+    switch (category) {
+      case 'etc':
         return Category.etc;
-      case '결제':
+      case 'payment':
         return Category.payment;
-      case '벌점':
+      case 'penalty':
         return Category.penalty;
-      case '회원정보':
+      case 'userInfo':
         return Category.userInfo;
       default:
-        throw Exception('Unknown category: $categoryString');
+        throw Exception('Unknown Category type: $category');
     }
   }
 }

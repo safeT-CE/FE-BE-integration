@@ -5,13 +5,6 @@ import 'package:safet/models/inquiry_check_data.dart';
 
 
 class InquiryTile extends StatelessWidget {
-  //final InquiryItem inquiry; // OneOnOneInquiry 객체를 직접 받습니다.
-
-  // InquiryTile({
-  //   required this.inquiry,
-  // });
-
-
   final String title;  // Inquiry title
   final String content;  // Inquiry content
   final DateTime createdAt;  // Creation date

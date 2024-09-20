@@ -179,13 +179,13 @@ class MyApp extends StatelessWidget {
                   return MaterialPageRoute(builder: (context) => IdentificationPage());
                 case '/penalty':
                   return MaterialPageRoute(builder: (context) => PenaltyPage());
-                // case '/one_on_one_inquiry':
-                //   return MaterialPageRoute(
-                //     builder: (context) => OneOnOneInquiryPage(
-                //       initialCategory: Category.penalty,
-                //       initialTitle: '벌점 기록에 대한 문의',
-                //     ),
-                //   );
+                case '/one_on_one_inquiry':
+                  return MaterialPageRoute(
+                    builder: (context) => OneOnOneInquiryPage(
+                      initialCategory: Category.penalty,
+                      initialTitle: '벌점 기록에 대한 문의',
+                    ),
+                  );
                 default:
                   return MaterialPageRoute(builder: (context) => SplashPage());
                 
