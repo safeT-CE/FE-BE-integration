@@ -8,7 +8,7 @@ import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
 import 'package:safet/pages/auth_face_cam_page.dart';
 import 'package:safet/pages/auth_phonenum_page.dart';
-import 'package:safet/pages/detailed_usage_data.dart';
+import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
 
 import 'pages/agreement_page.dart';

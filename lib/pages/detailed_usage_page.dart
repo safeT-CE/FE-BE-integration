@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
 
 import '../main.dart';
-import 'detailed_usage_data.dart';
+import '../models/detailed_usage_data.dart';
 
 class DetailedUsagePage extends StatelessWidget {
   @override

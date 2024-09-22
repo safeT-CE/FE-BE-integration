@@ -49,7 +49,7 @@ class InquiryPage extends StatelessWidget {
                   initialTitle: '',
                 ),
               ),
-            );
+            );  
           },
           backgroundColor: safeTgreen,
           foregroundColor: Colors.white,
