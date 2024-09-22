@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:safet/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safet/back/home.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  String? phoneNumber;
+  String? grade;
+  String? useTime; // DateTime을 String으로 변경, 필요 시 변환
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSettings();
+  }
+
+  void _loadSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+
+    if (userId != null) {
+      final homeProfile = await fetchPhoneNumber(userId); // API를 통해 전화번호 가져옴
+      if (homeProfile != null) {
+        setState(() {
+          phoneNumber = homeProfile.phone;
+          grade = homeProfile.grade;
+          useTime = homeProfile.useTime.toString();
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +45,8 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             color: safeTblack,
             fontFamily: "safeTtitle",
-            fontSize: 24),
+            fontSize: 24,
+          ),
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,
@@ -80,7 +114,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '(총 이용시간)시간째\n지구를 사랑하는 (닉네임)님\n(레벨)이에요',
+                        '${useTime ?? "0"}시간째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}이에요',
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

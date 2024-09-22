@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:safet/pages/inquiry_page.dart';
-import 'package:safet/utils/ProfileResponse.dart';
+import 'package:safet/models/profile_data.dart';
 import 'package:safet/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -15,6 +15,7 @@ import 'login_page.dart';
 import 'payment_selection_page.dart';
 import 'penalty_page.dart';
 import 'ticket_purchase_page.dart';
+import 'package:intl/intl.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -35,14 +36,14 @@ class _ProfilePageState extends State<ProfilePage> {
   final TextEditingController _phoneNumberController = TextEditingController();
 
   // user 정보 불러옴
-  Future<ProfileResponse?> fetchPhoneNumber(String userId) async {
+  Future<ProfileData?> fetchPhoneNumber(String userId) async {
     final url = Uri.parse('${baseUrl}profile/$userId'); // 서버 API URL
     print(url);
     final response = await http.get(url);
 
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
-      return ProfileResponse.fromJson(data);
+      return ProfileData.fromJson(data);
     } else {
       // 오류 처리
       return null;
@@ -57,8 +58,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _loadSettings() async {
-    //final prefs = await SharedPreferences.getInstance();
-    //final userId = prefs.getString('userId');
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
 
@@ -67,13 +66,13 @@ class _ProfilePageState extends State<ProfilePage> {
       if (profile != null) {
         setState(() {
           phoneNumber = profile.phone;
-          _phoneNumberController.text = phoneNumber ?? '-';
+          _phoneNumberController.text = phoneNumber.toString() ?? '-';
           grade = profile.grade;
           _phoneNumberController.text = grade.toString() ?? '-';
           point = profile.point;
           _phoneNumberController.text = point.toString() ?? '-';
           useTime = profile.useTime;
-          _phoneNumberController.text = useTime.toString() ?? '-'; 
+          _phoneNumberController.text = useTime.toString() ?? '-';
         });
       }
     }

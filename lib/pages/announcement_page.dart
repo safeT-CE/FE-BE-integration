@@ -30,7 +30,7 @@ class AnnouncementList extends StatefulWidget {
   _AnnouncementListState createState() => _AnnouncementListState();
 }
 
-// 
+
 class _AnnouncementListState extends State<AnnouncementList> {
   List<dynamic> announcements = [];
   bool isLoading = true;
@@ -40,7 +40,7 @@ class _AnnouncementListState extends State<AnnouncementList> {
     super.initState();
     _fetchAnnouncements();
   }
-
+  //
   Future<void> _fetchAnnouncements() async {
     final url = Uri.parse('${baseUrl}notices');
     try {
