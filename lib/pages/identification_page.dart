@@ -85,7 +85,7 @@ class _IdentificationPageState extends State<IdentificationPage> {
                     child: ElevatedButton(
                       onPressed: () async {
                         // 동일인 판별 로직을 추가
-                        Navigator.pop(context, true); // 동일인 판별이 성공하면 true 반환
+                        Navigator.pop(context,false); // 동일인 판별이 성공하면 true 반환
                       },
                       child: Text('다음'),
                       style: ElevatedButton.styleFrom(
@@ -99,6 +99,26 @@ class _IdentificationPageState extends State<IdentificationPage> {
               ],
             )
           : Center(child: CircularProgressIndicator()), // 카메라 초기화 중 로딩 표시
+    );
+  }
+
+  void _showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('얼굴 인식 실패'),
+          content: Text('얼굴이 인식되지 않았습니다. 다시 시도해 주세요.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
