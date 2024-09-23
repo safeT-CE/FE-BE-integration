@@ -19,21 +19,39 @@ class ReturnPage extends StatelessWidget {
           iconTheme: IconThemeData(color: safeTgreen),
         ),
         body: Container(
-          color: Colors.white, 
-          child: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                _showReturnPopup(context);
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: safeTgreen,
-                foregroundColor: Colors.white,
+          color: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween, // 버튼과 이미지를 화면에 적절히 배치
+            children: <Widget>[
+              SizedBox(height: -30), // 상단 여백
+              ElevatedButton(
+                onPressed: () {
+                  _showReturnPopup(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: safeTgreen,
+                  foregroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 20, horizontal: 40), // 버튼 크기 조정
+                  minimumSize: Size(100, 60), // 버튼의 최소 크기 설정
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(25), // 버튼 모서리 둥글게
+                  ),
+                ),
+                child: Text('반납하기', style: TextStyle(fontSize: 18)),
               ),
-              child: Text('반납하기'),
-            ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 0.0), // 하단 여백 추가
+                child: Image.asset(
+                  'assets/image/pic.png',
+                  width: MediaQuery.of(context).size.width, // 화면 너비에 맞추기
+                  height: 120, // 이미지 높이 설정
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ],
           ),
         ),
-      )
+      ),
     );
   }
 
@@ -65,6 +83,7 @@ class ReturnPage extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(
                   foregroundColor: safeTgreen, // 버튼 글씨 색상 지정
+                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
                 ),
                 child: Text('반납하기'),
               ),
@@ -81,7 +100,7 @@ class ReturnPage extends StatelessWidget {
   bool _checkParkingValidity() {
     // 여기서 주차 상태를 확인하는 로직을 추가하세요.
     // 예시로 항상 비정상적인 주차로 가정
-    return false; // 정상 주차일 경우 true, 비정상 주차일 경우 false 반환 여기서 결정해서 바꾸기!!! 
+    return true; // 정상 주차일 경우 true, 비정상 주차일 경우 false 반환 여기서 결정해서 바꾸기!!! 
   }
 
   void _showInvalidParkingPopup(BuildContext context) {
@@ -91,7 +110,7 @@ class ReturnPage extends StatelessWidget {
         return AlertDialog(
           backgroundColor: Colors.white,
           title: Text('비정상적인 주차 감지'),
-          content: Text('비정상적인 주차 상태로 인해 반납이 불가능합니다. 올바른 위치에 주차해주세요.'),
+          content: Text('비정상적인 주차 상태로 인해 \n반납이 불가능합니다.\n올바른 위치에 주차해주세요.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
@@ -231,7 +250,7 @@ class ReturnPage extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('비정상적인 주차 감지'),
-          content: Text('비정상적인 주차 상태로 인해 반납이 불가능합니다. 올바른 위치에 주차해주세요.'),
+          content: Text('비정상적인 주차 상태로 인해 \n반납이 불가능합니다.\n올바른 위치에 주차해주세요.'),
           actions: <Widget>[
             TextButton(
               onPressed: () {
