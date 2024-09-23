@@ -17,16 +17,21 @@ class _IdentificationPageState extends State<IdentificationPage> {
     _initializeCamera();
   }
 
+  // 카메라 초기화 메서드
   void _initializeCamera() async {
-    final cameras = await availableCameras();
-    final frontCamera = cameras.firstWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
-    _controller = CameraController(frontCamera, ResolutionPreset.medium);
-    await _controller.initialize();
-    if (!mounted) return;
-    setState(() {
-      isCameraInitialized = true;
-    });
+    try {
+      final cameras = await availableCameras();
+      final frontCamera = cameras.firstWhere(
+          (camera) => camera.lensDirection == CameraLensDirection.front);
+      _controller = CameraController(frontCamera, ResolutionPreset.medium);
+      await _controller.initialize();
+      if (!mounted) return;
+      setState(() {
+        isCameraInitialized = true;
+      });
+    } catch (e) {
+      print('Error initializing camera: $e');
+    }
   }
 
   @override
@@ -38,19 +43,29 @@ class _IdentificationPageState extends State<IdentificationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('동일인 판별'),
-      ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,  // 배경색을 투명하게 설정
       body: isCameraInitialized
-          ? Column(
+          ? Stack(
               children: <Widget>[
-                Expanded(
-                  flex: 4,
-                  child: Stack(
-                    alignment: Alignment.center,
+                 SizedBox.expand(  // 카메라 프리뷰를 전체 화면으로 확장
+                child: CameraPreview(_controller), // 카메라 프리뷰
+              ), // 카메라 프리뷰
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 100,
+                  child: Column(
                     children: [
-                      CameraPreview(_controller),
+                      Text(
+                        '얼굴을 영역 안에 맞추고\n촬영해 주세요.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white, // 텍스트 색상
+                        ),
+                      ),
+                      SizedBox(height: 30),
                       Container(
                         width: 250,
                         height: 250,
@@ -62,41 +77,28 @@ class _IdentificationPageState extends State<IdentificationPage> {
                     ],
                   ),
                 ),
-                Expanded(
-                  flex: 2,
+                Positioned(
+                  bottom: 16,
+                  left: 0,
+                  right: 0,
                   child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          '얼굴을 영역 안에 맞추고\n촬영해 주세요.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 30),
-                        ElevatedButton(
-                          onPressed: () {
-                            // 여기에서 동일인 판별 로직을 추가할 수 있습니다.
-                            Navigator.pop(context, true); // 동일인 판별이 성공하면 true를 반환
-                          },
-                          child: Text('다음'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white, 
-                            backgroundColor: safeTgreen, // 텍스트 색상
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 40, vertical: 20),
-                          ),
-                        ),
-                      ],
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        // 동일인 판별 로직을 추가
+                        Navigator.pop(context, true); // 동일인 판별이 성공하면 true 반환
+                      },
+                      child: Text('다음'),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white, // 텍스트 색상
+                        backgroundColor: safeTgreen, // 버튼 배경 색상
+                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                      ),
                     ),
                   ),
                 ),
               ],
             )
-          : Center(child: CircularProgressIndicator()), // 카메라 초기화 중에는 로딩 표시
+          : Center(child: CircularProgressIndicator()), // 카메라 초기화 중 로딩 표시
     );
   }
 }
