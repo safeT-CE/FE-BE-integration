@@ -19,6 +19,22 @@ class _HomePageState extends State<HomePage> {
     _loadSettings();
   }
 
+  /*  // 전화번호를 끝 4자리만 표시하는 getter
+  String? get formattedPhoneNumber {
+    if (phoneNumber != null && phoneNumber!.length >= 4) {
+      return '****-${phoneNumber!.substring(phoneNumber!.length - 4)}';
+    }
+    return '-';
+  }
+
+  // Duration을 시:분 형식으로 변환하는 헬퍼 메서드
+  String formatDuration(Duration? duration) {
+    if (duration == null) return '0시간 0분';
+    final hours = duration.inHours;
+    final minutes = duration.inMinutes.remainder(60);
+    return '$hours시간 $minutes분';
+  }
+  */
   void _loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
@@ -29,7 +45,7 @@ class _HomePageState extends State<HomePage> {
         setState(() {
           phoneNumber = homeProfile.phone;
           grade = homeProfile.grade;
-          useTime = homeProfile.useTime.toString();
+          useTime = homeProfile.useTime.toString(); // useTime = homeProfile.useTime; // Duration 형태로 저장
         });
       }
     }
@@ -112,7 +128,10 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Image.asset('assets/image/level1.png', width: 50, height: 50),
                     SizedBox(width: 8),
-                    Expanded(
+                    Expanded/*child: Text(
+                        '${formatDuration(useTime)}\n지구를 사랑하는 ${formattedPhoneNumber}님\n${grade ?? "레벨"}이에요', 
+                        style: TextStyle(fontSize: 16),
+                      ),*/
                       child: Text(
                         '${useTime ?? "0"}시간째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}이에요',
                         style: TextStyle(fontSize: 16),
