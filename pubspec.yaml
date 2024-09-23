@@ -38,7 +38,7 @@ dependencies:
   provider: ^6.0.3  
   camera: ^0.10.0+4
   intl: ^0.17.0  
-  kakao_flutter_sdk: ^1.9.5
+  kakao_flutter_sdk: ^1.9.0
   http: ^0.13.3
 
 
@@ -99,5 +99,17 @@ flutter:
     - family: safeTtitle
       fonts:
         - asset: assets/fonts/ddag.ttf
+    - family: safeTboldPT
+      fonts:
+        - asset: assets/fonts/Pretendard-SemiBold.ttf
+    - family: safeTtextPT
+      fonts:
+        - asset: assets/fonts/Pretendard-Medium.ttf
+    - family: safeTboldJS
+      fonts:
+        - asset: assets/fonts/TheJamsil4Medium.ttf
+    - family: safeTtextJS
+      fonts:
+        - asset: assets/fonts/TheJamsil3Regular.ttf
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
