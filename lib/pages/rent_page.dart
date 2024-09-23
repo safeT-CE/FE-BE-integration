@@ -105,18 +105,21 @@ class _RentPageState extends State<RentPage> {
     });
   }
 
-  void _navigateToIdentification(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => IdentificationPage(),
-      ),
-    ).then((isIdentified) {
-      if (isIdentified != null && isIdentified) {
-        _showBatteryPopup(context);
-      }
-    });
-  }
+void _navigateToIdentification(BuildContext context) {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => IdentificationPage(),
+    ),
+  ).then((isIdentified) {
+    if (isIdentified != null && isIdentified) {
+      _showBatteryPopup(context); // 얼굴 인식 성공 시 배터리 정보 확인
+    } else {
+      // 얼굴 인식 실패 시 추가 처리 (재시도, 알림 등)
+      _showErrorDialog(context, "얼굴 인식에 실패했습니다. 다시 시도해주세요.");
+    }
+  });
+}
 
   @override
   void dispose() {
@@ -124,6 +127,30 @@ class _RentPageState extends State<RentPage> {
     super.dispose();
   }
 
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text('동일인 판별 오류'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // 팝업 닫기
+              },
+              style: ElevatedButton.styleFrom(
+                foregroundColor: safeTgreen,
+              ),
+              child: Text('확인'),
+                          ),
+          ],
+        );
+      },
+    );
+  }
+  
   void _showBatteryPopup(BuildContext context) {
     showDialog(
       context: context,
