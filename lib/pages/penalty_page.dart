@@ -47,7 +47,7 @@ class PenaltyPage extends StatelessWidget {
                     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(penalty.date);
 
                                         return Card(
-                      color: Colors.lightGreenAccent,
+                      color: safeTlightgreen,//맞는지 확인 필
                       margin: EdgeInsets.symmetric(vertical: 8.0),
                       child: InkWell(
                         onTap: () {
