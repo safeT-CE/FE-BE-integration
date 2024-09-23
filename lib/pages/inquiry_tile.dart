@@ -47,26 +47,7 @@ class InquiryTile extends StatelessWidget {
     return '${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 ${dateTime.hour}시 ${dateTime.minute}분';
   }
 }
-/*import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
-import '../main.dart';
-
-
-class InquiryTile extends StatelessWidget {
-  final String title;  // Inquiry title
-  final String content;  // Inquiry content
-  final DateTime createdAt;  // Creation date
-  final String? response;  // Optional response
-
-  InquiryTile({
-    required this.title,
-    required this.content,
-    required this.createdAt,
-    this.response,  // This field is optional
-  });
-
-
+/*
   @override
   Widget build(BuildContext context) {
     return Card(
