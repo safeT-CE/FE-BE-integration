@@ -152,7 +152,8 @@ Future<String> _uploadImages(File faceImage) async {
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,  // 팝업 배경색 흰색으로 지정
-          title: Text('동일인 여부'),
+          title: Text('동일인 여부',
+          style: TextStyle(fontFamily:"safeTboldPT",),),
           content: Text(response),
           actions: [
             if (response == "면허증 사진과 동일인입니다.") ...[
@@ -166,7 +167,10 @@ Future<String> _uploadImages(File faceImage) async {
                     ),
                   );
                 },
-                child: Text('다음'),
+                child: Text('다음',
+                style: TextStyle(fontFamily:"safeTtextPT",
+                ),
+                ),
               ),
             ] else...[
               TextButton(
@@ -174,7 +178,10 @@ Future<String> _uploadImages(File faceImage) async {
                   Navigator.pop(context); // 팝업 닫기
                   // 동일인이 아닐 경우 다시 얼굴 촬영 시도
                 },
-                child: Text('다시 촬영'),
+                child: Text('다시 촬영',
+                style: TextStyle(fontFamily:"safeTtextPT",
+                ),
+                ),
               ),
             ],
           ],
@@ -239,7 +246,9 @@ Future<String> _uploadImages(File faceImage) async {
                 Text(
                   '얼굴을 영역 안에 맞추고\n촬영해 주세요.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 20, 
+                  fontFamily:"safeTboldPT", 
+                  color: Colors.white),
                 ),
                 SizedBox(height: 30),
                 Container(

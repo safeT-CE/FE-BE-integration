@@ -45,7 +45,8 @@ class _MapPageState extends State<MapPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text('지도',
-            style: TextStyle(color: safeTblack),
+            style: TextStyle(color: safeTblack,
+            fontFamily:"safeTboldPT",),
           ),
           centerTitle: true, // title 중앙정렬
           backgroundColor: Colors.white,

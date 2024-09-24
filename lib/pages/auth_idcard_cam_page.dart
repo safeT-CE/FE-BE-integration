@@ -186,7 +186,9 @@ class _IdCamPageState extends State<IdCamPage> {
                 Text(
                   '신분증을 영역 안에 맞추고\n촬영해 주세요.',
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+                  style: TextStyle(fontSize: 20, 
+                  fontFamily:"safeTboldPT",
+                  color: Colors.white),
                 ),
                 SizedBox(height: 30),
                 Container(
@@ -225,7 +227,8 @@ class _IdCamPageState extends State<IdCamPage> {
                   Expanded(
                     child: Text(
                       '신분증에 빛이 반사되지 않도록 영역 안에\n조절하여 주세요.',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14,
+                      fontFamily:"safeTtextPT",),
                     ),
                   ),
                 ],
@@ -250,7 +253,9 @@ class _IdCamPageState extends State<IdCamPage> {
                     Expanded(
                       child: Text(
                         '텍스트를 인식하지 못했습니다.\n다시 시도해주세요.',
-                        style: TextStyle(color: Colors.white, fontSize: 14),
+                        style: TextStyle(color: Colors.white, 
+                        fontSize: 14,
+                        fontFamily:"safeTtextPT",),
                       ),
                     ),
                   ],

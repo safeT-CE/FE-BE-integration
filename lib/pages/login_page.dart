@@ -122,6 +122,7 @@ class _LoginPageState extends State<LoginPage> {
               keyboardType: TextInputType.phone,
               style: TextStyle(
               color: safeTblack, // 입력된 숫자의 텍스트 색상 설정
+              fontFamily:"safeTtextPT",
               ),
             ),
             SizedBox(height: 4),
@@ -141,7 +142,10 @@ class _LoginPageState extends State<LoginPage> {
                     activeColor: safeTlightgreen, // 체크된 상태의 색상 설정
                   ),
                 ),
-                Text('자동 로그인'),
+                Text('자동 로그인',
+                style:TextStyle(
+                fontFamily:"safeTtextPT",
+              ),),
               ],
             ),
             SizedBox(height: 16),
@@ -154,13 +158,18 @@ class _LoginPageState extends State<LoginPage> {
                 backgroundColor: safeTgreen,
                 foregroundColor: Colors.white,
               ),
-              child: Text('로그인'),
+              child: Text('로그인',
+              style:TextStyle(
+                fontFamily:"safeTtextPT",
+              ),),
             ),
             SizedBox(height: 32),
             Text(
               'or continue with',
               textAlign: TextAlign.center,
-              style: TextStyle(color: safeTgray),
+              style: TextStyle(color: safeTgray,
+              fontFamily:"safeTtextPT",
+              ),
             ),
             SizedBox(height: 16),
             // Row(

@@ -65,7 +65,8 @@ class _FaceHowPageState extends State<FaceHowPage> {
             Text(
               '신분증 사진과 비교하여 \n본인 여부를 확인합니다.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, 
+              fontFamily:"safeTboldPT"),
             ),
             SizedBox(height: 50),
             Image.asset(
@@ -86,7 +87,8 @@ class _FaceHowPageState extends State<FaceHowPage> {
                   Expanded(
                     child: Text(
                       '마스크, 선글라스 등 신분증 사진 촬영 당시\n착용하지 않았던 악세서리를 착용할 경우,\n식별이 어려울 수 있습니다.\n반드시 벗은 후 진행해 주세요.',
-                      style: TextStyle(fontSize: 14),
+                      style: TextStyle(fontSize: 14,
+                      fontFamily:"safeTtextPT",),
                     ),
                   ),
                 ],
@@ -117,7 +119,9 @@ class _FaceHowPageState extends State<FaceHowPage> {
               },
               child: Text(
                 '다음',
-                style: TextStyle(fontSize: 18,color: Colors.white),
+                style: TextStyle(fontSize: 18,
+                color: Colors.white,
+                fontFamily:"safeTtextPT",),
               ),
             ),
           ],

@@ -63,11 +63,13 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('오류'),
+          title: Text('오류',
+          style: TextStyle(fontFamily:"safeTtextPT"),),
           content: Text(message),
           actions: <Widget>[
             TextButton(
-              child: Text('확인'),
+              child: Text('확인',
+              style: TextStyle(fontFamily:"safeTtextPT"),),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -87,7 +89,8 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('전화번호를 입력해주세요.'),
+          content: Text('전화번호를 입력해주세요.',
+          style: TextStyle(fontFamily:"safeTtextPT"),),
         ),
       );
     }
@@ -117,16 +120,20 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
             Text(
               '휴대폰 번호를 입력해주세요.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, 
+              fontFamily:"safeTboldPT"),
             ),
             SizedBox(height: 16),
-            Text('휴대폰 번호'),
+            Text('휴대폰 번호',
+            style: TextStyle(fontFamily:"safeTtextPT"),),
             TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
-              style: TextStyle(fontSize: 30),
+              style: TextStyle(fontSize: 30,
+              fontFamily:"safeTtextPT",),
               decoration: InputDecoration(
-                prefix: Text('+82 '),
+                prefix: Text('+82 ',
+                style: TextStyle(fontFamily:"safeTtextPT"),),
                 hintText: '00-0000-0000',
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: safeTgreen, width: 2.0),
@@ -149,7 +156,9 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
           ),
           child: Text(
             '확인',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(
+              color: Colors.white,
+            fontFamily:"safeTtextPT",),
             ),
         ),
       ),
