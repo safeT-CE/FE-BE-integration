@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 import '../main.dart';
-import '../models/detailed_usage_data.dart';
+import 'detailed_usage_data.dart';
 
 class DetailedUsageMapPage extends StatefulWidget {
   final DetailedUsage usage;
@@ -109,7 +109,6 @@ class _DetailedUsageMapPageState extends State<DetailedUsageMapPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text('주행 시간: ${widget.usage.driveTime}', style: TextStyle(fontSize: 16)),
-                  Text('주행 거리: ${widget.usage.driveDistance} km', style: TextStyle(fontSize: 16)),
                   Text('대여장소: 위도: ${widget.usage.path.first.latitude}, 경도: ${widget.usage.path.first.longitude}', style: TextStyle(fontSize: 12)),
                   Text('반납장소: 위도: ${widget.usage.path.last.latitude}, 경도: ${widget.usage.path.last.longitude}', style: TextStyle(fontSize: 12)),
                 ],
