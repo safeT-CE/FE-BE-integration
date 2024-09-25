@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
 
 import '../main.dart';
-import '../models/detailed_usage_data.dart';
+import 'detailed_usage_data.dart';
 
 class DetailedUsagePage extends StatelessWidget {
   @override
@@ -56,12 +56,6 @@ class DetailedUsagePage extends StatelessWidget {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                Text(
-                                  '${usage.driveTime} - ${usage.driveDistance} km',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                  ),
-                                ),
                               ],
                             ),
                             const SizedBox(height: 16),
@@ -75,12 +69,6 @@ class DetailedUsagePage extends StatelessWidget {
                                     // 필요시 mapController 저장
                                   },
                                   center: LatLng(usage.latitude, usage.longitude),
-                                  markers: [
-                                    Marker(
-                                      markerId: UniqueKey().toString(),
-                                      latLng: LatLng(usage.latitude, usage.longitude),
-                                    ),
-                                  ],
                                 ),
                               ),
                             ),
