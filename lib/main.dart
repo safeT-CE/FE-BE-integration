@@ -63,7 +63,7 @@ class MyApp extends StatelessWidget {
       providers: [
         //ChangeNotifierProvider(create: (context) => InquiryData()),
         //ChangeNotifierProvider(create: (context) => penalty_data()),
-        ChangeNotifierProvider(create: (context) => DetailedUsageData()),
+        //ChangeNotifierProvider(create: (context) => DetailedUsageData()),
         ChangeNotifierProvider(create: (context) => AuthUserData()),
       ],
       child: MaterialApp(

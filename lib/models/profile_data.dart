@@ -47,6 +47,6 @@ class ProfileData {
   static String _durationToString(Duration? duration) {
     if (duration == null) return '00:00:00'; // 기본값 설정
     return duration.inHours.toString().padLeft(2, '0') + ':' +
-           (duration.inMinutes.remainder(60)).toString().padLeft(2, '0') + ':00';
+    (duration.inMinutes.remainder(60)).toString().padLeft(2, '0') + ':00';
   }
 }

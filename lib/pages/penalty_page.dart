@@ -4,7 +4,7 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 import '../main.dart';
 import '../models/penalty.dart';
-import '../utils/penalty_data.dart';
+import '../back/penalty_data.dart';
 import 'penalty_detail_page.dart';
 
 class PenaltyPage extends StatelessWidget {
