@@ -23,7 +23,7 @@ class ReturnPage extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween, // 버튼과 이미지를 화면에 적절히 배치
             children: <Widget>[
-              SizedBox(height: -30), // 상단 여백
+              SizedBox(height: 10), // 상단 여백
               ElevatedButton(
                 onPressed: () {
                   _showReturnPopup(context);
@@ -83,7 +83,6 @@ class ReturnPage extends StatelessWidget {
                 },
                 style: TextButton.styleFrom(
                   foregroundColor: safeTgreen, // 버튼 글씨 색상 지정
-                  padding: EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
                 ),
                 child: Text('반납하기'),
               ),
