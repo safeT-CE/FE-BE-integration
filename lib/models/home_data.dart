@@ -18,7 +18,8 @@ class HomeData {
     );
   }
   
-/*  // 로컬 데이터를 처리하는 생성자 (useTime을 String에서 변환)
+/* 추가(주석지우기)
+// 로컬 데이터를 처리하는 생성자 (useTime을 String에서 변환)
   factory HomeData.fromLocal(String useTimeString, {String? phone, String? grade}) {
     Duration? useTime = _parseTime(useTimeString);  // String -> Duration 변환
     return HomeData(
@@ -55,7 +56,7 @@ class HomeData {
   }
 }
 
-/*
+/* 추가 (주석지우기)
    // Duration을 포맷팅하여 출력하는 메서드 (HH:mm:ss 형식)
   String getFormattedUseTime() {
     if (useTime == null) return '00:00:00'; // 기본값
