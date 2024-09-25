@@ -47,7 +47,7 @@ class AlarmPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          '벌점 알림',
+          '알림 내역',
           style: TextStyle(color: Colors.black),
         ),
           centerTitle: true,
@@ -118,4 +118,5 @@ class SseService {
       yield line; // 각 이벤트를 스트림으로 전달
     }
   }
-}*/
+}
+*/
