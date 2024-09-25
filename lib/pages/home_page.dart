@@ -104,7 +104,9 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: Text('2024년 이용권 업그레이드 안내',
-                      style: TextStyle(fontFamily:"safeTtextPT"), //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: "safeTtextPT",  
+                        fontWeight: FontWeight.bold,  
                       ),
                     ),
                     Icon(
@@ -133,9 +135,10 @@ class _HomePageState extends State<HomePage> {
                     Expanded(
                       child: Text(
                         '${useTime ?? "0"}시간째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}이에요',
-                        style: TextStyle(fontSize: 16,
-                        fontFamily:"safeTtextPT",), //굵게  style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
+                          style: TextStyle(
+                            fontFamily: "safeTtextPT",  // 글꼴 패밀리 설정
+                            fontWeight: FontWeight.bold,  // 글꼴 두께 설정
+                          ),
                       ),
                     ),
                   ],
@@ -161,7 +164,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       child: Text('대여하기',
-                      style: TextStyle(fontFamily:"safeTtextPT", //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: "safeTtextPT",  // 글꼴 패밀리 설정
+                        fontWeight: FontWeight.bold,  // 글꼴 두께 설정
                       ),
                       ),
                       ),
@@ -185,7 +190,9 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       child: Text('반납하기',
-                      style: TextStyle(fontFamily:"safeTtextPT", //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontFamily: "safeTtextPT",  // 글꼴 패밀리 설정
+                        fontWeight: FontWeight.bold,  // 글꼴 두께 설정
                       ),
                       ),
                       ),
@@ -214,11 +221,10 @@ class _HomePageState extends State<HomePage> {
                     Center(
                       child: Text(
                         '지도',
-                        style: TextStyle(
-                          color: safeTblack,
-                          fontSize: 24,
-                          fontFamily:"safeTtextPT"
-                        ),
+                      style: TextStyle(
+                        color: safeTblack,
+                        fontFamily: "safeTtextPT",  // 글꼴 패밀리 설정
+                        fontWeight: FontWeight.bold,  // 글꼴 두께 설정
                       ),
                     ),
                   ],
