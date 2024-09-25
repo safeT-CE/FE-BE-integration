@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:safet/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:safet/back/home.dart';
+//import 'home_data.dart'
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+/*
+class _HomePageState extends State<HomePage> {
+  HomeData? homeData; // HomeData 객체로 데이터를 관리
+*/
 
 class _HomePageState extends State<HomePage> {
   String? phoneNumber;
@@ -30,6 +36,16 @@ class _HomePageState extends State<HomePage> {
           phoneNumber = homeProfile.phone;
           grade = homeProfile.grade;
           useTime = homeProfile.useTime.toString();
+         
+          /*
+          setState(() {
+          homeData = HomeData.fromLocal(
+            homeProfile.useTime.toString(), // useTime을 String으로 전달
+            phone: homeProfile.phone,
+            grade: homeProfile.grade,
+          );
+          */
+          
         });
       }
     }
