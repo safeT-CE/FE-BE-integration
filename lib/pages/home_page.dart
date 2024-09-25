@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-/*
+/* 밑을 이걸로 수정
 class _HomePageState extends State<HomePage> {
   HomeData? homeData; // HomeData 객체로 데이터를 관리
 */
@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
           grade = homeProfile.grade;
           useTime = homeProfile.useTime.toString();
          
-          /*
+          /* 위를 이걸로 변경
           setState(() {
           homeData = HomeData.fromLocal(
             homeProfile.useTime.toString(), // useTime을 String으로 전달
