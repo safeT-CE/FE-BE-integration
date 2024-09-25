@@ -104,7 +104,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: Text('2024년 이용권 업그레이드 안내',
-                      style: TextStyle(fontFamily:"safeTtextPT"),
+                      style: TextStyle(fontFamily:"safeTtextPT"), //굵게  style: TextStyle(fontWeight: FontWeight.bold),
                       ),
                     ),
                     Icon(
@@ -134,7 +134,8 @@ class _HomePageState extends State<HomePage> {
                       child: Text(
                         '${useTime ?? "0"}시간째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}이에요',
                         style: TextStyle(fontSize: 16,
-                        fontFamily:"safeTtextPT",),
+                        fontFamily:"safeTtextPT",), //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       ),
                     ),
                   ],
@@ -160,7 +161,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       child: Text('대여하기',
-                      style: TextStyle(fontFamily:"safeTtextPT",
+                      style: TextStyle(fontFamily:"safeTtextPT", //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       ),
                       ),
                     ),
@@ -183,7 +185,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       child: Text('반납하기',
-                      style: TextStyle(fontFamily:"safeTtextPT",
+                      style: TextStyle(fontFamily:"safeTtextPT", //굵게  style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
                       ),
                       ),
                     ),
