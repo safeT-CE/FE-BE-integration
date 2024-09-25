@@ -35,7 +35,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final TextEditingController _phoneNumberController = TextEditingController();
 
-  /*
+  /* 그냥 주석지우면 돼
     // 전화번호를 끝 4자리만 표시
   String? get formattedPhoneNumber {
     if (phoneNumber != null && phoneNumber!.length >= 4) {
@@ -74,6 +74,40 @@ class _ProfilePageState extends State<ProfilePage> {
     super.initState();
     _loadSettings();
   }
+
+  /*
+  showLoutoutPop 전까지 지우고 이걸로 수정
+  
+    if (userId != null) {
+      final profile = await fetchPhoneNumber(userId);
+      if (profile != null) {
+        setState(() {
+          phoneNumber = profile.phone;
+          grade = profile.grade;
+          point = profile.point;
+          useTime = profile.useTime;
+          _phoneNumberController.text = phoneNumber ?? '-';
+        });
+      }
+    }
+  }
+
+  // 전화번호 수정 기능
+  void _toggleEditingPhoneNumber() {
+    setState(() {
+      isEditingPhoneNumber = !isEditingPhoneNumber;
+    });
+  }
+
+  void _savePhoneNumber() {
+    setState(() {
+      phoneNumber = _phoneNumberController.text;
+      isEditingPhoneNumber = false;
+      _saveSettings();
+    });
+  }
+
+  */
 
   void _loadSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
