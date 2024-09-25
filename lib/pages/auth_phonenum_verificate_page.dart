@@ -128,7 +128,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text('휴대폰 인증'),
+        title: Text('휴대폰 인증',
+        style: TextStyle(fontFamily:"safeTtextPT",),),
         centerTitle: true,
         automaticallyImplyLeading: false,
         actions: [
@@ -150,13 +151,14 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
               Text(
                 '휴대폰 번호 인증',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, fontFamily:"safeTboldPT"),
               ),
               SizedBox(height: 8),
               Text(
                 '아래 번호로 인증 번호가 전송 되었습니다.\n인증 번호를 입력해주세요.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey),
+                style: TextStyle(color: Colors.grey,
+                fontFamily:"safeTtextPT",),
               ),
               SizedBox(height: 32),
               Text(
@@ -236,7 +238,8 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
           ),
           child: Text(
             '확인',
-            style: TextStyle(color: Colors.white),
+            style: TextStyle(color: Colors.white,
+            fontFamily:"safeTtextPT",),
             ),
         ),
       ),

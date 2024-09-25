@@ -53,8 +53,9 @@ class _AgreementPageState extends State<AgreementPage> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            '약관에 동의해 주세요.',
-            style: TextStyle(color: safeTblack),
+            '약관 동의',
+            style: TextStyle(color: safeTblack,
+            fontFamily:"safeTboldPT",),
           ),
           centerTitle: true, // title 중앙정렬
           automaticallyImplyLeading: false, // 뒤로 가기 버튼 제거
@@ -95,7 +96,10 @@ class _AgreementPageState extends State<AgreementPage> {
                       checkColor: Colors.white,
                     ),
                   ),
-                  Text('약관 전체 동의'),
+                  Text('약관 전체 동의',
+                  style: TextStyle(fontFamily:"safeTtextPT",
+                  fontSize: 16,
+                  ),),
                 ],
               ),
               Divider(),
@@ -115,7 +119,11 @@ class _AgreementPageState extends State<AgreementPage> {
                         activeColor: safeTgreen,
                         checkColor: Colors.white,
                       ),
-                      title: Text(_agreeTitles[index]),
+                      title: Text(_agreeTitles[index],
+                      style: TextStyle(fontFamily:"safeTtextPT",
+                      fontSize: 16,
+                      ),
+                      ),
                       trailing: Icon(Icons.arrow_forward_ios, color: safeTlightgreen),
                       onTap: () {
                         _navigateToDetailPage(index);
@@ -145,7 +153,9 @@ class _AgreementPageState extends State<AgreementPage> {
                 ),
                 child: Text(
                   '동의하고 진행',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white,
+                fontFamily:"safeTtextPT",
+                ),
                 ),
               ),
             ],
@@ -168,7 +178,8 @@ class AgreementDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           title,
-          style: TextStyle(color: safeTblack), // Set title color here
+          style: TextStyle(color: safeTblack,
+          fontFamily:"safeTboldPT"), // Set title color here
         ),
         centerTitle: true,
         backgroundColor: Colors.white,

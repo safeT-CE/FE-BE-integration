@@ -23,7 +23,8 @@ class AuthDonePage extends StatelessWidget {
         body: Center(
           child: Text('사용자 정보를 가져오지 못했습니다.\n회원가입을 다시 시도해주세요.',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+            style: TextStyle(fontSize: 20, 
+            fontFamily:"safeTboldPT"),),
         ),
       );
     }
@@ -37,7 +38,8 @@ class AuthDonePage extends StatelessWidget {
             Text(
               '회원 가입이\n완료 되었습니다.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 24, 
+              fontFamily:"safeTboldPT"),
             ),
             SizedBox(height: 20),
             Image.asset(
@@ -62,11 +64,13 @@ class AuthDonePage extends StatelessWidget {
                     children: [
                       Text(
                         '이름:',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                       Text(
                         '${userInfo.name}',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT"),
                       ),
                     ],
                   ),
@@ -80,11 +84,13 @@ class AuthDonePage extends StatelessWidget {
                     children: [
                       Text(
                         '면허 종류:',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                       Text(
                         '${userInfo.licenseType}',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                     ],
                   ),
@@ -98,11 +104,13 @@ class AuthDonePage extends StatelessWidget {
                     children: [
                       Text(
                         '생년월일:',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                       Text(
                         '${userInfo.dateOfBirth}',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                     ],
                   ),
@@ -116,11 +124,13 @@ class AuthDonePage extends StatelessWidget {
                     children: [
                       Text(
                         '면허 번호:',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                       Text(
                         '${userInfo.licenseNumber}',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT"),
                       ),
                     ],
                   ),
@@ -134,11 +144,13 @@ class AuthDonePage extends StatelessWidget {
                     children: [
                       Text(
                         '면허 발급일:    ',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                       Text(
                         '${userInfo.dateOfIssue}',
-                        style: TextStyle(fontSize: 18),
+                        style: TextStyle(fontSize: 18,
+                        fontFamily:"safeTtextPT",),
                       ),
                     ],
                   ),
@@ -159,7 +171,8 @@ class AuthDonePage extends StatelessWidget {
                 },
                 child: Text(
                   '확인',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,
+                  fontFamily:"safeTtextPT",),
                 ),
               ),
             ),

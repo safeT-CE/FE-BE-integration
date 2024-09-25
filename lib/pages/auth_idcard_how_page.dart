@@ -29,7 +29,8 @@ class IdHowPage extends StatelessWidget {
               Text(
                 '가지고 계신 원동기 면허증을\n준비해 주세요.',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 20, 
+                fontFamily:"safeTboldPT"),
               ),
               SizedBox(height: 60),
               Image.asset(
@@ -48,7 +49,8 @@ class IdHowPage extends StatelessWidget {
                 },
                 child: Text(
                   '다음',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(color: Colors.white,
+                  fontFamily:"safeTtextPT",),
                 ),
               ),
             ],

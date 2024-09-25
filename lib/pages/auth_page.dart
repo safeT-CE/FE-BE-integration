@@ -24,7 +24,10 @@ class AuthPage extends StatelessWidget {
             Text(
               '안전한 공공 전동 킥보드 사용을 위한 서비스\nSafeT입니다.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+              style: TextStyle(
+                fontFamily: "safeTtextPT",
+                fontSize: 16, 
+                color: Colors.grey),
             ),
             SizedBox(height: 32),
             ElevatedButton(
@@ -35,7 +38,11 @@ class AuthPage extends StatelessWidget {
                 backgroundColor: safeTgreen,
                 foregroundColor: Colors.white,
               ),
-              child: Text('로그인'),
+              child: Text('로그인',
+              style: TextStyle(
+                fontFamily:"safeTtextPT",
+              ),
+              ),
             ),
             SizedBox(height: 16),
             ElevatedButton(
@@ -46,13 +53,21 @@ class AuthPage extends StatelessWidget {
                 backgroundColor: safeTgreen,
                 foregroundColor: Colors.white,
               ),
-              child: Text('회원가입'),
+              child: Text(
+                '회원가입',
+                style: TextStyle(
+                fontFamily:"safeTtextPT",
+              ),
+              ),
             ),
             SizedBox(height: 32),
             Text(
               'or continue with',
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.grey),
+              style: TextStyle(
+                color: Colors.grey,
+                fontFamily:"safeTtextPT",
+              ),
             ),
             SizedBox(height: 16),
             // Row(

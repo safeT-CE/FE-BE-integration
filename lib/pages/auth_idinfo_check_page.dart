@@ -94,7 +94,9 @@ class _IdInfoCheckPageState extends State<IdInfoCheckPage> {
             Text(
               '인식된 신분증 정보를 확인해주세요.',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 20, 
+              fontFamily:"safeTboldPT",
+              ),
             ),
             SizedBox(height: 30),
             _buildInfoRow('이름', _nameController, '이름을 입력하세요'),
@@ -131,7 +133,9 @@ class _IdInfoCheckPageState extends State<IdInfoCheckPage> {
               },
               child: Text(
                 '다음',
-                style: TextStyle(fontSize: 18,color: Colors.white),
+                style: TextStyle(fontSize: 18,
+                color: Colors.white,
+                fontFamily:"safeTtextPT",),
               ),
             ),
           ],

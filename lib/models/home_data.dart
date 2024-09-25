@@ -17,7 +17,18 @@ class HomeData {
       useTime: _parseTime(json['useTime']), // String을 Duration으로 변환
     );
   }
-
+  
+/* 추가(주석지우기)
+// 로컬 데이터를 처리하는 생성자 (useTime을 String에서 변환)
+  factory HomeData.fromLocal(String useTimeString, {String? phone, String? grade}) {
+    Duration? useTime = _parseTime(useTimeString);  // String -> Duration 변환
+    return HomeData(
+      phone: phone,
+      grade: grade,
+      useTime: useTime,
+    );
+  }*/
+  
   // Dart 객체를 JSON으로 변환하는 메서드
   Map<String, dynamic> toJson() {
     return {
@@ -44,3 +55,16 @@ class HomeData {
            (duration.inMinutes.remainder(60)).toString().padLeft(2, '0') + ':00';
   }
 }
+
+/* 추가 (주석지우기)
+   // Duration을 포맷팅하여 출력하는 메서드 (HH:mm:ss 형식)
+  String getFormattedUseTime() {
+    if (useTime == null) return '00:00:00'; // 기본값
+    String twoDigits(int n) => n.toString().padLeft(2, "0");
+    String hours = twoDigits(useTime!.inHours);
+    String minutes = twoDigits(useTime!.inMinutes.remainder(60));
+    String seconds = twoDigits(useTime!.inSeconds.remainder(60));
+    return "$hours:$minutes:$seconds";
+  }
+}
+*/
