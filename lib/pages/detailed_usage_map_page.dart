@@ -108,7 +108,7 @@ class _DetailedUsageMapPageState extends State<DetailedUsageMapPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('주행 시간: ${widget.usage.driveTime}', style: TextStyle(fontSize: 16)),
+                  Text('주행 시간: ${widget.usage.driveTime}분', style: TextStyle(fontSize: 16)),
                   Text('대여장소: ${widget.usage.rentalAddress}', style: TextStyle(fontSize: 12)),
                   Text('반납장소: ${widget.usage.returnAddress}', style: TextStyle(fontSize: 12)),
                 ],

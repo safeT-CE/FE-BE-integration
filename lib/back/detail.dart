@@ -16,7 +16,16 @@ Future<List<DetailedUsage>> getDetailedUsagePage() async {
   if (response.statusCode == 200) {
     final List<dynamic> data = jsonDecode(response.body); // JSON 배열로 변환
     // 서버가 DetailedUsage 리스트를 반환할 경우 처리
-    return data.map((item) => DetailedUsage.fromJson(item)).toList();
+    List<DetailedUsage> usageList = data.map((item) => DetailedUsage.fromJson(item)).toList();
+    
+     // id 기준으로 내림차순으로 정렬
+    usageList.sort((a, b) {
+      return b.id.compareTo(a.id);
+    });
+
+    return usageList;
+    // 서버가 DetailedUsage 리스트를 반환할 경우 처리
+    //return data.map((item) => DetailedUsage.fromJson(item)).toList();
   } else {
     // 오류 처리
     return [];

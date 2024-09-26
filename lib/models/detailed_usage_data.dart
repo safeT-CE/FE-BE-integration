@@ -1,6 +1,7 @@
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 
 class DetailedUsage {
+  final int id;
   final String date;           // 이용 날짜
   final int driveTime;      // 주행 시간
   final double latitude;    // 빌린 장소
@@ -10,6 +11,7 @@ class DetailedUsage {
   final String returnAddress;
 
   DetailedUsage({
+    required this.id,
     required this.date,
     required this.driveTime,
     required this.latitude,
@@ -21,6 +23,7 @@ class DetailedUsage {
 
   factory DetailedUsage.fromJson(Map<String, dynamic> json) {
     return DetailedUsage(
+      id: json['id'],
       date: json['rentedAt'],
       driveTime: json['duration'],
       latitude: json['rentalLocation']['latitude'],
