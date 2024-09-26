@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:safet/main.dart';
-
 import 'package:safet/utils/constants.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 class AnnouncementPage extends StatelessWidget {
   @override
@@ -40,7 +40,8 @@ class _AnnouncementListState extends State<AnnouncementList> {
     super.initState();
     _fetchAnnouncements();
   }
-  //
+  
+  // back 연결
   Future<void> _fetchAnnouncements() async {
     final url = Uri.parse('${baseUrl}notices');
     try {
@@ -83,7 +84,6 @@ class _AnnouncementListState extends State<AnnouncementList> {
 
               DateTime updatedAt = DateTime.parse(announcement['updatedAt']);
               String updatedDate = DateFormat('yyyy.MM.dd').format(updatedAt);
-              
 
               return AnnouncementTile(
                 id: announcement['id'],

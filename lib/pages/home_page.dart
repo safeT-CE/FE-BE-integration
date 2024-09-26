@@ -2,17 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:safet/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:safet/back/home.dart';
-// import 'home_data.dart'
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
-/* 밑을 이걸로 수정
-class _HomePageState extends State<HomePage> {
-  HomeData? homeData; // HomeData 객체로 데이터를 관리
-*/
 
 class _HomePageState extends State<HomePage> {
   String? phoneNumber;
@@ -23,6 +18,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadSettings();
+    // AnnouncementProvider에서 제목을 가져오기
+    final announcementProvider = Provider.of<AnnouncementProvider>(context, listen: false);
+    announcementProvider.fetchLatestTitle();
   }
 
   void _loadSettings() async {
@@ -36,16 +34,6 @@ class _HomePageState extends State<HomePage> {
           phoneNumber = homeProfile.phone;
           grade = homeProfile.grade;
           useTime = homeProfile.useTime.toString();
-
-          /* 위를 이걸로 변경
-          setState(() {
-            homeData = HomeData.fromLocal(
-              homeProfile.useTime.toString(), // useTime을 String으로 전달
-              phone: homeProfile.phone,
-              grade: homeProfile.grade,
-            );
-          });
-          */
         });
       }
     }
@@ -53,6 +41,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final announcementProvider = Provider.of<AnnouncementProvider>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -104,7 +94,7 @@ class _HomePageState extends State<HomePage> {
                   children: [
                     Expanded(
                       child: Text(
-                        '2024년 이용권 업그레이드 안내',
+                        announcementProvider.latestTitle ?? '로딩 중...', // 제목 할당
                         style: TextStyle(
                           fontFamily: "safeTtextPT",
                           fontWeight: FontWeight.bold,
@@ -136,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '${useTime ?? "0"}시간째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}이에요',
+                        '${useTime ?? "0"}째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}입니다',
                         style: TextStyle(
                           fontFamily: "safeTtextPT", // 글꼴 패밀리 설정
                           fontWeight: FontWeight.bold, // 글꼴 두께 설정

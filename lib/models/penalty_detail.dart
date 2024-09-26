@@ -14,7 +14,7 @@ class Penalty_detail {
     required this.penaltyId, 
     required this.content, 
     required this.date, 
-    required this.photo, 
+    required this.photo,
     required this.totalCount, 
     required this.location, 
     required this.map, 

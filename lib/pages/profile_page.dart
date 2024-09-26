@@ -29,29 +29,20 @@ class _ProfilePageState extends State<ProfilePage> {
   String? phoneNumber;
   String? grade;
   int? point;
-  Duration? useTime;
+  String? useTime;
 
   bool isEditingPhoneNumber = false;
 
   final TextEditingController _phoneNumberController = TextEditingController();
 
   /* 그냥 주석지우면 돼
-    // 전화번호를 끝 4자리만 표시
+  // 전화번호를 끝 4자리만 표시
   String? get formattedPhoneNumber {
     if (phoneNumber != null && phoneNumber!.length >= 4) {
       return '****-${phoneNumber!.substring(phoneNumber!.length - 4)}';
     }
     return '-';
-  }
-
-  // Duration을 시:분 형식으로 변환하는 헬퍼 메서드
-  String formatDuration(Duration? duration) {
-    if (duration == null) return '0시간 0분';
-    final hours = duration.inHours;
-    final minutes = duration.inMinutes.remainder(60);
-    return '$hours시간 $minutes분';
-  }
-  */
+  }*/
 
   // user 정보 불러옴
   Future<ProfileData?> fetchPhoneNumber(String userId) async {

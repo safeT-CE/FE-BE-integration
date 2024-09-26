@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
 import 'package:safet/models/auth_user_data.dart';
+import 'package:safet/back/home.dart';
 import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/models/user_info.dart';
 import 'package:safet/pages/auth_done_page.dart';
@@ -10,6 +11,7 @@ import 'package:safet/pages/auth_face_cam_page.dart';
 import 'package:safet/pages/auth_phonenum_page.dart';
 import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
+
 
 import 'pages/agreement_page.dart';
 import 'pages/alarm_page.dart';
@@ -33,6 +35,7 @@ import 'pages/profile_page.dart';
 import 'pages/rent_page.dart';
 import 'pages/return_page.dart';
 import 'pages/splash_page.dart';
+
 
 const Color safeTblack = Color(0xFF1A1A1A);
 const Color safeTgray = Color(0xFFA1A1A1);
@@ -65,6 +68,7 @@ class MyApp extends StatelessWidget {
         //ChangeNotifierProvider(create: (context) => penalty_data()),
         //ChangeNotifierProvider(create: (context) => DetailedUsageData()),
         ChangeNotifierProvider(create: (context) => AuthUserData()),
+        ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
       ],
       child: MaterialApp(
             title: 'SafeT',
