@@ -1,20 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
-import 'package:provider/provider.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
-
-import '../main.dart';
-import 'package:safet/models/detailed_usage_data.dart';
-
-import 'package:flutter/material.dart';
-import 'package:kakao_map_plugin/kakao_map_plugin.dart';
-import 'package:safet/pages/detailed_usage_map_page.dart';
-import 'dart:convert'; // jsonDecode를 위해 필요
-import 'package:http/http.dart' as http;
-import '../main.dart';
 import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/back/detail.dart';
-
+import 'package:safet/main.dart';
 
 class DetailedUsagePage extends StatelessWidget {
 

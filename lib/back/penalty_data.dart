@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import '../models/penalty.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safet/models/penalty.dart';
 import 'package:safet/utils/constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 Future<List<Penalty>> fetchPenalties() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -36,5 +36,3 @@ Future<List<Penalty>> fetchPenalties() async {
     throw Exception('Failed to load penalty points');
   }
 }
-
-

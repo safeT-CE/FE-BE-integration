@@ -69,6 +69,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
             title: 'SafeT',
       theme: ThemeData(
+        fontFamily: 'Pretendard',
         primaryColor: safeTgreen, // 기본 색상
         colorScheme: ColorScheme.fromSwatch().copyWith(
           primary: safeTgreen, // 강조 색상

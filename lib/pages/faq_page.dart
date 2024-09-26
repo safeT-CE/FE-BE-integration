@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../models/faq.dart'; // FAQService import
+import '../models/faq_data.dart'; // FAQService import
 import 'faq_tile.dart';
+import 'package:safet/back/faq.dart';
 
 class FAQPage extends StatefulWidget {
   @override

@@ -5,6 +5,7 @@ import '../main.dart';
 import '../models/inquiry_add_data.dart';
 import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/models/inquiry_add_data.dart';
+import 'package:safet/back/inquiry_add.dart';
 
 // 개인 문의 작성 폼
 class OneOnOneInquiryPage extends StatefulWidget {

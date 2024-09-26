@@ -1,9 +1,8 @@
 // user 정보 불러옴
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/utils/constants.dart';
 import 'package:http/http.dart' as http;
-import '../models/penalty.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
 Future<List<DetailedUsage>> getDetailedUsagePage() async {

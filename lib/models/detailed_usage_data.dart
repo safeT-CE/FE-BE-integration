@@ -1,9 +1,4 @@
-import 'package:flutter/foundation.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:safet/utils/constants.dart';
 
 class DetailedUsage {
   final String date;           // 이용 날짜
@@ -11,6 +6,8 @@ class DetailedUsage {
   final double latitude;    // 빌린 장소
   final double longitude;
   final List<LatLng> path;  // 빌린 장소, 반납 장소
+  final String rentalAddress;
+  final String returnAddress;
 
   DetailedUsage({
     required this.date,
@@ -18,6 +15,8 @@ class DetailedUsage {
     required this.latitude,
     required this.longitude,
     required this.path,
+    required this.rentalAddress,
+    required this.returnAddress
   });
 
   factory DetailedUsage.fromJson(Map<String, dynamic> json) {
@@ -31,7 +30,9 @@ class DetailedUsage {
                 json['rentalLocation']['longitude']?.toDouble() ?? 0.0),
                 LatLng(json['returnLocation']['latitude']?.toDouble() ?? 0.0,
                 json['returnLocation']['longitude']?.toDouble() ?? 0.0)
-      ]
+      ],
+      rentalAddress: json['rentalAddress'],
+      returnAddress: json['returnAddress']
     );
   }
 }

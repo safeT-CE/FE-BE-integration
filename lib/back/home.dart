@@ -1,9 +1,7 @@
 import 'package:safet/models/home_data.dart';
 import 'package:safet/utils/constants.dart';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 
 // user 정보 불러옴
 Future<HomeData?> fetchPhoneNumber(String userId) async {

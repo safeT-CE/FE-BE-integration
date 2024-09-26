@@ -1,11 +1,10 @@
-import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
-
-import '../main.dart';
-import '../models/penalty.dart';
-import '../back/penalty_data.dart';
+import 'package:safet/back/penalty_data.dart';
+import 'package:safet/models/penalty.dart';
+import 'package:flutter/material.dart';
 import 'penalty_detail_page.dart';
+import 'package:safet/main.dart';
+import 'package:intl/intl.dart';
 
 class PenaltyPage extends StatelessWidget {
   @override

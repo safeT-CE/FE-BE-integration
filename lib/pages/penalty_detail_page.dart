@@ -7,10 +7,9 @@ import 'package:kakao_map_plugin/kakao_map_plugin.dart'; // Kakao Map 패키지 
 import 'package:safet/main.dart';
 import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/utils/constants.dart';
-// backend 연동 중 추가
-import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/penalty_detail.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:safet/models/penalty_detail.dart';
 import 'one_on_one_inquiry_page.dart';
 
 class PenaltyDetailPage extends StatelessWidget {

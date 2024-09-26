@@ -6,7 +6,7 @@ class Penalty {
   final DateTime date;
   final String photo;
   final int totalCount; // 벌점 누적 횟수
-  final Map<String, double> map;  // 위도, 경도를 보내주면 그걸 바탕으로 지도맵 좌표점 찍어서 표시하는 거 추천
+  final Map<String, double> map;  // 위도, 경도
   
   Penalty({required this.penaltyId, required this.content, required this.date
           , required this.photo, required this.totalCount, required this.map});
