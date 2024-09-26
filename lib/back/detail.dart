@@ -24,8 +24,6 @@ Future<List<DetailedUsage>> getDetailedUsagePage() async {
     });
 
     return usageList;
-    // 서버가 DetailedUsage 리스트를 반환할 경우 처리
-    //return data.map((item) => DetailedUsage.fromJson(item)).toList();
   } else {
     // 오류 처리
     return [];
