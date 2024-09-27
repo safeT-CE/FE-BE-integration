@@ -1,122 +1,67 @@
-/*
-import 'package:safet/main.dart';
-import 'package:flutter/material.dart';
-
-import 'package:safet/utils/constants.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert'; // jsonDecode를 사용하기 위해 import
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sse_client/sse_client.dart';
+import 'package:safet/utils/constants.dart';
 
-// 해결 중인 코드
-
-void main() {
-  runApp(MaterialApp(
-    home: MyApp()
-    )); // MyApp을 실행합니다.
-}
-
-class MyApp extends StatefulWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('메인 페이지'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AlarmPage()),
-              );
-            },
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('메인 페이지 내용'),
-      ),
-    );
-  }
-}
-
-class AlarmPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          '알림 내역',
-          style: TextStyle(color: Colors.black),
-        ),
-          centerTitle: true,
-          iconTheme: IconThemeData(color: safeTgreen),
-          elevation: 0,
-      ),
-      backgroundColor: Colors.white,
-      
-      body: AlarmList(),
-    );
-  }
-}
-
-class AlarmList extends StatefulWidget {
-  @override
-  _AlarmListState createState() => _AlarmListState();
-  // @override
-  // _MyAppState createState() => _MyAppState(); // 상태 클래스를 올바르게 참조
-}
-
-
-class _AlarmListState extends State<AlarmList> {
-  late final Stream<String> _stream;
-
-  @override
-  void initState() {
-    super.initState();
-    final sseService = SseService();
-    _stream = sseService.subscribe();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('SSE Example')),
-      body: StreamBuilder<String>(
-        stream: _stream,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return Center(child: Text('No data received.'));
-          }
-
-          // 이벤트 데이터를 화면에 표시
-          return ListView(
-            children: [
-              ListTile(title: Text(snapshot.data!)),
-            ],
-          );
-        },
-      ),
-    );
-  }
-}
 
 class SseService {
-  Stream<String> subscribe() async* {
+  SseClient? _sseClient; // Nullable로 선언
+  Function(String)? _inquiryNotificationCallback; // 알림 콜백 저장할 변수
+
+  // SSE 서버에 연결하는 메서드
+  Future<void> connect() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
 
-    final uri = Uri.parse('${baseUrl}subscribe/$userId');
-    final response = await http.Client().send(http.Request('GET', uri));
+    // userId가 null인지 확인
+    if (userId != null) {
+      try {
+        // 서버의 SSE 엔드포인트로 연결
+        _sseClient = SseClient.connect(Uri.parse('${baseUrl}notifications/subscribe/$userId'));
 
-    await for (final line in response.stream.transform(utf8.decoder).transform(LineSplitter())) {
-      yield line; // 각 이벤트를 스트림으로 전달
+        // SSE에서 메시지를 받을 때마다 처리
+        final stream = _sseClient?.stream;
+        if (stream != null) {
+          stream.listen((event) {
+            print("Received SSE event: $event");
+
+
+            // 이벤트 이름이나 데이터에 따라 다르게 처리
+            if (event.contains('penalty')) {
+              _handlePenaltyNotification(event);
+            } else if (event.contains('inquiry')) {
+              if (_inquiryNotificationCallback != null) {
+                //print("Penalty Notification Comment2: ${event.comment}");
+                _inquiryNotificationCallback!(event); // 콜백 호출
+              }
+            }
+          });
+        } else {
+          print("SSE Client stream is null.");
+        }
+      } catch (e) {
+        print("Failed to connect to SSE: $e");
+      }
+    } else {
+      print("User ID not found in SharedPreferences.");
     }
   }
+
+  // SSE 연결 해제 메서드
+  void disconnect() {
+    if (_sseClient != null) {
+      print("sseClient null");
+      //_sseClient!.close();
+    }
+  }
+
+  // 패널티 알림 처리
+  void _handlePenaltyNotification(String event) {
+    print("Penalty Notification: $event");
+  }
+
+  // 문의 알림 콜백 설정
+  void setInquiryNotificationCallback(void Function(String) callback) {
+    
+    _inquiryNotificationCallback = callback; // 콜백 변수에 값 설정
+  }
 }
-*/
