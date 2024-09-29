@@ -46,6 +46,7 @@ class DetailedUsagePage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   elevation: 4,
+                  margin: EdgeInsets.symmetric(vertical: 12.0), // 카드 사이의 간격을 넓히기 위한 margin 설정
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
