@@ -95,10 +95,12 @@ class _OneOnOneInquiryPageState extends State<OneOnOneInquiryPage> {
           elevation: 0,
           centerTitle: true,
         ),
-        backgroundColor: Colors.white, // 전체 배경색 흰색으로 설정
-        body: Padding(
+      backgroundColor: Colors.white, // 전체 배경색 흰색으로 설정
+      body: SingleChildScrollView( // 스크롤 가능하도록 변경
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start, // 좌측 정렬
             children: [
               DropdownButtonFormField<Category>(
                 decoration: InputDecoration(
@@ -152,20 +154,23 @@ class _OneOnOneInquiryPageState extends State<OneOnOneInquiryPage> {
                 style: TextStyle(color: Colors.black),
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitInquiry,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: safeTgreen,
-                  foregroundColor: Colors.white,
+              Center( // 버튼을 가운데 정렬
+                child: ElevatedButton(
+                  onPressed: _submitInquiry,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: safeTgreen,
+                    foregroundColor: Colors.white,
+                  ),
+                  child: const Text('제출'),
                 ),
-                child: const Text('제출'),
               ),
             ],
           ),
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   String _categoryToKorean(Category category) {
     switch (category) {
