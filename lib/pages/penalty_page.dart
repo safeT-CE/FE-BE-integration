@@ -26,7 +26,7 @@ class PenaltyPage extends StatelessWidget {
         body: Padding(
           padding: const EdgeInsets.all(16.0),
           child: FutureBuilder<List<Penalty>>(
-            future: fetchPenalties(), // 변경된 함수명
+            future: fetchPenalties(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -35,26 +35,25 @@ class PenaltyPage extends StatelessWidget {
               } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                 return Center(child: Text('현재 데이터가 없습니다.'));
               } else {
-                final penalties = snapshot.data!; // 변경된 변수명
-                
+                final penalties = snapshot.data!;
+
                 return ListView.builder(
                   itemCount: penalties.length,
                   itemBuilder: (context, index) {
-                    final penalty = penalties[index]; // 변경된 변수명
-                    print(penalty.photo);
+                    final penalty = penalties[index];
+
                     // 날짜를 포맷팅
                     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(penalty.date);
 
-                                        return Card(
-                      color: safeTlightgreen,//맞는지 확인 필
+                    return Card(
+                      color: safeTlightgreen,
                       margin: EdgeInsets.symmetric(vertical: 8.0),
                       child: InkWell(
                         onTap: () {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  PenaltyDetailPage(penaltyId: penalty.penaltyId),
+                              builder: (context) => PenaltyDetailPage(penaltyId: penalty.penaltyId),
                             ),
                           );
                         },
@@ -74,6 +73,23 @@ class PenaltyPage extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
+                                ],
+                              ),
+                              SizedBox(height: 4),
+                              // 날짜와 누적 횟수
+                              Row(
+                                children: [
+                                  // 날짜
+                                  Text(
+                                    formattedDate,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  // Spacer로 날짜와 누적 횟수 사이 간격 추가
+                                  Spacer(),
+                                  // 누적 횟수
                                   Text(
                                     '누적 ${penalty.totalCount}회',
                                     style: TextStyle(
@@ -83,28 +99,13 @@ class PenaltyPage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              SizedBox(height: 4),
-                              Text(
-                                formattedDate,
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: Colors.grey,
-                                ),
-                              ),
                               SizedBox(height: 8),
                               Container(
                                 height: 200,
                                 child: KakaoMap(
                                   onMapCreated: (controller) {
                                     controller.addMarker(
-                                      /*Marker(
-                                        markerId: 'penalty_marker_$index',
-                                        latLng: LatLng(
-                                          penalty.map['latitude'] ?? 0.0,
-                                          penalty.map['longitude'] ?? 0.0,
-                                        ),
-                                      ),
-                                      */
+                                      // marker 추가 생략
                                     );
                                   },
                                   center: LatLng(
@@ -120,8 +121,7 @@ class PenaltyPage extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          PenaltyDetailPage(
+                                      builder: (context) => PenaltyDetailPage(
                                         penaltyId: penalty.penaltyId,
                                       ),
                                     ),
