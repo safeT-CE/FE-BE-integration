@@ -172,7 +172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               children: [
                                 Text(
                                   '$phoneNumber 님',
-                                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                                  style: const TextStyle(fontSize: 16),
                                 ),
                                 const SizedBox(height: 4),
                                 Text(
