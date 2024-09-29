@@ -17,37 +17,7 @@ class InquiryTile extends StatelessWidget {
     this.response,  // This field is optional
   });
 
-  // 이부분 수정 필요
-  @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(title),
-      subtitle: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(content),
-          SizedBox(height: 4),
-          Text(
-            _formatDateTime(createdAt),
-            style: TextStyle(color: Colors.grey),
-          ),
-          if (response != null) ...[
-            SizedBox(height: 8),
-            Text(
-              '응답: $response',
-              style: TextStyle(color: Colors.blue),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
 
-  String _formatDateTime(DateTime dateTime) {
-    return '${dateTime.year}년 ${dateTime.month}월 ${dateTime.day}일 ${dateTime.hour}시 ${dateTime.minute}분';
-  }
-}
-/*
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -103,4 +73,3 @@ class InquiryTile extends StatelessWidget {
     return DateFormat('yyyy년 MM월 dd일 HH시 mm분').format(dateTime); // 날짜 형식
   }
 }
-이거로 변경할 예정, 확인 후에 진행*/
