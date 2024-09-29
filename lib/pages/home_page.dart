@@ -43,6 +43,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     final announcementProvider = Provider.of<AnnouncementProvider>(context);
 
+    return WillPopScope(
+      onWillPop: () async {
+        // false를 반환하여 뒤로 가기 동작을 막습니다.
+        return false;
+      },
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -126,7 +131,7 @@ class _HomePageState extends State<HomePage> {
                     SizedBox(width: 8),
                     Expanded(
                       child: Text(
-                        '${useTime ?? "0"}째\n지구를 사랑하는 ${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}입니다',
+                        '${useTime ?? "0"}째 사용 중\n${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}입니다',
                         style: TextStyle(
                           fontFamily: "safeTtextPT", // 글꼴 패밀리 설정
                           fontWeight: FontWeight.bold, // 글꼴 두께 설정
