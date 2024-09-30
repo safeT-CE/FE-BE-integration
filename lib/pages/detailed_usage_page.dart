@@ -6,6 +6,7 @@ import 'package:safet/back/detail.dart';
 import 'package:safet/main.dart';
 
 class DetailedUsagePage extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return Theme(
@@ -39,80 +40,74 @@ class DetailedUsagePage extends StatelessWidget {
               itemCount: detailedUsageList.length,
               itemBuilder: (context, index) {
                 final usage = detailedUsageList[index];
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: 300, // 카드의 최대 너비 제한 (원하는 값으로 설정)
-                    maxHeight: 250, // 카드의 최대 높이 제한 (필요시 추가)
+                return Card(
+                  color: safeTlightgreen,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
-                  child: Card(
-                    color: safeTlightgreen,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
-                    ),
-                    elevation: 4,
-                    margin: EdgeInsets.symmetric(vertical: 12.0), // 카드 사이의 간격을 넓히기 위한 margin 설정
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          // 날짜 정보와 주행 거리 정보
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                usage.date,
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8), // 간격
-                          // 지도 표시
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(12.0),
-                            child: Container(
-                              height: 100,
-                              child: KakaoMap(
-                                onMapCreated: (controller) {
-                                  // 필요시 mapController 저장
-                                },
-                                center: LatLng(usage.latitude, usage.longitude),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          // 확인하기 버튼
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => DetailedUsageMapPage(usage: usage),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: safeTgreen,
-                              padding: const EdgeInsets.symmetric(vertical: 16.0),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.0),
-                              ),
-                              elevation: 0,
-                            ),
-                            child: const Text(
-                              '확인하기',
+                  elevation: 4,
+                  margin: EdgeInsets.symmetric(vertical: 15.0), // 카드 사이의 간격을 넓히기 위한 margin 설정
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // 날짜 정보와 주행 거리 정보
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              usage.date,
                               style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
+                                fontSize: 14,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+                          ],
+                        ),
+                        const SizedBox(height: 8), //간격격
+                        // 지도 표시
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(12.0),
+                          child: Container(
+                            height: 150,
+                            child: KakaoMap(
+                              onMapCreated: (controller) {
+                                // 필요시 mapController 저장
+                              },
+                              center: LatLng(usage.latitude, usage.longitude),
+                            ),
                           ),
-                        ],
-                      ),
+                        ),
+                        const SizedBox(height: 16),
+                        // 확인하기 버튼
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailedUsageMapPage(usage: usage),
+                              ),
+                            );
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: safeTgreen,
+                            padding: const EdgeInsets.symmetric(vertical: 16.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            elevation: 0,
+                          ),
+                          child: const Text(
+                            '확인하기',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 );
