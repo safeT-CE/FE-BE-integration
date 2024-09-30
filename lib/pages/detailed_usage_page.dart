@@ -40,18 +40,13 @@ class DetailedUsagePage extends StatelessWidget {
               itemCount: detailedUsageList.length,
               itemBuilder: (context, index) {
                 final usage = detailedUsageList[index];
-                return ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxWidth: 300, // 카드의 최대 너비 제한 (원하는 값으로 설정)
-                    maxHeight: 250, // 카드의 최대 높이 제한 (필요시 추가)
-                  ),
                 return Card(
                   color: safeTlightgreen,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.0),
+                    borderRadius: BorderRadius.circular(16.0),
                   ),
                   elevation: 4,
-                  margin: EdgeInsets.symmetric(vertical: 12.0), // 카드 사이의 간격을 넓히기 위한 margin 설정
+                  margin: EdgeInsets.symmetric(vertical: 15.0), // 카드 사이의 간격을 넓히기 위한 margin 설정
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
@@ -75,7 +70,7 @@ class DetailedUsagePage extends StatelessWidget {
                         ClipRRect(
                           borderRadius: BorderRadius.circular(12.0),
                           child: Container(
-                            height: 100,
+                            height: 150,
                             child: KakaoMap(
                               onMapCreated: (controller) {
                                 // 필요시 mapController 저장
@@ -84,7 +79,7 @@ class DetailedUsagePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 8),
+                        const SizedBox(height: 16),
                         // 확인하기 버튼
                         ElevatedButton(
                           onPressed: () {
@@ -107,7 +102,7 @@ class DetailedUsagePage extends StatelessWidget {
                             '확인하기',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 18,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
