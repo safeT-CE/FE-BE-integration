@@ -9,7 +9,7 @@ import '../main.dart';
 import '../utils/auth_helper.dart';
 import 'announcement_page.dart';
 import 'detailed_usage_page.dart';
-import 'login_page.dart';
+import 'package:safet/pages/auth_page.dart';
 import 'payment_selection_page.dart';
 import 'penalty_page.dart';
 import 'ticket_purchase_page.dart';

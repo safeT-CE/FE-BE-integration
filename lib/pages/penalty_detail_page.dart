@@ -132,7 +132,7 @@ class PenaltyDetailPage extends StatelessWidget {
                               Icon(Icons.add_circle, size: 16, color: Colors.grey),
                               const SizedBox(width: 4),
                               Text(
-                                '누적 횟수: ${penalty.count}회',
+                                '누적 횟수: ${penalty.totalCount}회',
                                 style: const TextStyle(fontSize: 16),
                               ),
                             ],

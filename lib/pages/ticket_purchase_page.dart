@@ -1,7 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http; // 추가
+import 'package:http/http.dart' as http;
+import 'package:safet/utils/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
@@ -153,13 +154,7 @@ class _TicketPurchasePageState extends State<TicketPurchasePage> {
   }
 
   Future<http.Response> _sendPaymentRequest(String userId) {
-    // API 호출하기
-                      // 여기 수정 필요 - 이용권 구매로 변경하기 - http://192.168.219.102:8080/ticket
-                  // 수정 코드
-                
-                  //
-    //var url = Uri.parse('http://192.168.219.102:8080/ticket');
-    var url = Uri.parse('http://172.30.1.35:8080/ticket');
+    var url = Uri.parse('${baseUrl}ticket');
     var headers = {"Content-Type": "application/json"};
     var body = jsonEncode({
       'userId': userId

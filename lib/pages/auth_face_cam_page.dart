@@ -68,7 +68,9 @@ class _FaceCamPageState extends State<FaceCamPage> {
 
 Future<String> _uploadImages(File faceImage) async {
   try {
-    String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
+    //String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
 
     // 이미지 업로드를 위한 multipart request 생성
     var request = http.MultipartRequest(

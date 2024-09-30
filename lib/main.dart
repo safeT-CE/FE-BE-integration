@@ -22,7 +22,6 @@ import 'pages/auth_idinfo_check_page.dart';
 import 'pages/auth_page.dart';
 import 'pages/home_page.dart';
 import 'pages/identification_page.dart';
-import 'models/inquiry_add_data.dart';
 import 'pages/lock_page.dart';
 import 'pages/login_page.dart';
 import 'pages/map_page.dart';
