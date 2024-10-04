@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> {
                           '${useTime ?? "0"}째 사용 중\n${phoneNumber ?? "닉네임"}님\n${grade ?? "레벨"}입니다',
                           style: TextStyle(
                             fontFamily: "safeTtextPT",
-                            fontWeight: FontWeight.bold,
+                            //fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -225,6 +225,7 @@ class _HomePageState extends State<HomePage> {
                             color: safeTblack,
                             fontFamily: "safeTtextPT",
                             fontWeight: FontWeight.bold,
+                            fontSize: 20,
                           ),
                         ),
                       ),
