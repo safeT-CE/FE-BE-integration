@@ -61,14 +61,15 @@ class AuthPage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 32),
-            Text(
-              'or continue with',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.grey,
-                fontFamily:"safeTtextPT",
-              ),
-            ),
+            // 1005
+            // Text(
+            //   'or continue with',
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(
+            //     color: Colors.grey,
+            //     fontFamily:"safeTtextPT",
+            //   ),
+            // ),
             SizedBox(height: 16),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,

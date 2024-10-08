@@ -139,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                         _autoLogin = value!;
                       });
                     },
-                    activeColor: safeTlightgreen, // 체크된 상태의 색상 설정
+                    activeColor: safeTgreen, // 체크된 상태의 색상 설정
                   ),
                 ),
                 Text('자동 로그인',
@@ -164,13 +164,14 @@ class _LoginPageState extends State<LoginPage> {
               ),),
             ),
             SizedBox(height: 32),
-            Text(
-              'or continue with',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: safeTgray,
-              fontFamily:"safeTtextPT",
-              ),
-            ),
+            // 1005
+            // Text(
+            //   'or continue with',
+            //   textAlign: TextAlign.center,
+            //   style: TextStyle(color: safeTgray,
+            //   fontFamily:"safeTtextPT",
+            //   ),
+            // ),
             SizedBox(height: 16),
             // Row(
             //   mainAxisAlignment: MainAxisAlignment.center,
