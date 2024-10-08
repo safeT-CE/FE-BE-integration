@@ -85,7 +85,16 @@ class _PhoneNumberInputPageState extends State<PhoneNumberInputPage> {
 
     if (phoneNumber.isNotEmpty) {
       // 전화번호 유효성 검사 API 요청
-      _validatePhoneNumber(phoneNumber);
+      //_validatePhoneNumber(phoneNumber);
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => PhoneVerificationPage(
+              phoneNumber: phoneNumber,
+            ),
+          ),
+        );
+      //      
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
