@@ -231,10 +231,11 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ElevatedButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/auth_id_how');
-          },
-          //onPressed: _submitCode,
+          // 전화번호 유효성 인증 피하기
+          // onPressed: () {
+          //   Navigator.pushNamed(context, '/auth_id_how');
+          // },
+          onPressed: _submitCode,
           style: ElevatedButton.styleFrom(
             backgroundColor: safeTgreen,
             minimumSize: Size(double.infinity, 50),
