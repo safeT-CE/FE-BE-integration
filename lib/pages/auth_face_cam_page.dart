@@ -71,6 +71,7 @@ Future<String> _uploadImages(File faceImage) async {
     //String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
+    print('저장된 사용자 ID: $userId');
 
     // 이미지 업로드를 위한 multipart request 생성
     var request = http.MultipartRequest(
@@ -113,8 +114,8 @@ Future<String> _uploadImages(File faceImage) async {
       throw FormatException('Empty response body');
     }
 
-    // print('Response status: ${responseBody.statusCode}');
-    // print('Response Body:  ${responseBody.body}');
+    print('Response status: ${responseBody.statusCode}');
+    print('Response Body:  ${responseBody.body}');
 
     Map<String, dynamic> jsonResponse;
     try {

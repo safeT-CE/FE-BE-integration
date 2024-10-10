@@ -7,6 +7,7 @@ import 'package:safet/models/auth_user_data.dart';
 import 'dart:convert';
 import 'package:safet/utils/constants.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class PhoneVerificationPage extends StatefulWidget {
   final String phoneNumber;
@@ -82,7 +83,6 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
 
       if (response.statusCode == 200) {
         print('전화번호 인증 서버 응답 성공: ${response.body}');
-        Provider.of<AuthUserData>(context, listen: false).setUserId(response.body);
         
         // 기본 회원가입
         final response2 = await http.post(
@@ -96,6 +96,12 @@ class _PhoneVerificationPageState extends State<PhoneVerificationPage> {
         );
         if (response2.statusCode == 200) {
           print('기본 회원가입 서버 응답 성공: ${response2.body}');
+          Provider.of<AuthUserData>(context, listen: false).setUserId(response2.body);
+
+          // SharedPreferences에 사용자 ID 저장
+          SharedPreferences prefs = await SharedPreferences.getInstance();
+          await prefs.setString('userId', response2.body); // response2.body 값을 저장
+          
           Navigator.pushNamed(context, '/auth_id_how');
         } else {
           print('기본 회원가입 서버 응답 실패: ${response.statusCode}');
