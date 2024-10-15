@@ -68,7 +68,6 @@ class _FaceCamPageState extends State<FaceCamPage> {
 
 Future<String> _uploadImages(File faceImage) async {
   try {
-    //String? userId = Provider.of<AuthUserData>(context, listen: false).userId;
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? userId = prefs.getString('userId');
     print('저장된 사용자 ID: $userId');
