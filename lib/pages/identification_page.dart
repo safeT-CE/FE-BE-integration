@@ -46,7 +46,7 @@ class _IdentificationPageState extends State<IdentificationPage> {
     try {
       // 얼굴 사진 촬영
       final faceImage = await _controller.takePicture();
-
+      
       // 서버로 이미지 전송
       await _sendImageToServer(faceImage);
     } catch (e) {
@@ -67,6 +67,7 @@ class _IdentificationPageState extends State<IdentificationPage> {
         Uri.parse('${baseUrl}kickboard/rent/identify'),
       );
 
+      request.headers['Accept'] = 'application/json';
       // 사용자 아이디 추가
       request.fields['userId'] = userId ?? '';
 

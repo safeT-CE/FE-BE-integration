@@ -4,6 +4,7 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import '../main.dart';
 import 'identification_page.dart';
 import 'number_input_page.dart';
+import 'package:safet/back/rent.dart';
 
 class RentPage extends StatefulWidget {
   @override
@@ -186,27 +187,29 @@ void _navigateToIdentification(BuildContext context) {
   }
 
   void _showRentalConfirmationPopup(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text('대여 완료'),
-          content: Text('대여가 완료되었습니다.'),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/home'); // 홈으로 이동
-              },
-              style: ElevatedButton.styleFrom(
-                foregroundColor: safeTgreen,
-              ),
-              child: Text('확인'),
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        backgroundColor: Colors.white,
+        title: Text('대여 완료'),
+        content: Text('대여가 완료되었습니다.'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () async {
+              // Make the Spring Boot API request here
+              await requestRentalCompletion();
+
+              Navigator.of(context).pop();
+              Navigator.pushNamed(context, '/home'); // 홈으로 이동
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: safeTgreen,
             ),
-          ],
-        );
-      }
-    );
-  }
+            child: Text('확인'),
+          ),
+        ],
+      );
+    },
+  );
 }
