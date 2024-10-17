@@ -213,3 +213,5 @@ void _navigateToIdentification(BuildContext context) {
     },
   );
 }
+
+}
