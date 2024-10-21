@@ -1,18 +1,16 @@
-import 'package:safet/main.dart';
-import 'package:safet/utils/constants.dart'; // baseUrl 가져오기
 import 'dart:async';
-import 'dart:io';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as p;
+import 'package:safet/utils/constants.dart'; // baseUrl 가져오기
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IdentificationPage extends StatefulWidget {
   final CameraDescription frontCamera; // 프론트 카메라 추가
-  final File licenseImage; // 예시로 추가된 파일 (필요에 맞게 수정)
 
-  const IdentificationPage({Key? key, required this.frontCamera,}) : super(key: key);
+  const IdentificationPage({Key? key, required this.frontCamera}) : super(key: key);
 
   @override
   _IdentificationPageState createState() => _IdentificationPageState();
