@@ -2,25 +2,25 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:kakao_map_plugin/kakao_map_plugin.dart';
 import 'package:provider/provider.dart';
-import 'package:safet/models/auth_user_data.dart';
 import 'package:safet/back/home.dart';
+import 'package:safet/models/auth_user_data.dart';
+import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/models/inquiry_check_data.dart';
 import 'package:safet/models/user_info.dart';
-import 'package:safet/pages/auth_done_page.dart';
-import 'package:safet/pages/auth_face_cam_page.dart';
-import 'package:safet/pages/auth_phonenum_page.dart';
-import 'package:safet/models/detailed_usage_data.dart';
-import 'package:safet/pages/detailed_usage_map_page.dart';
 import 'package:safet/pages/agreement_page.dart';
 import 'package:safet/pages/alarm_page.dart';
 import 'package:safet/pages/announcement_page.dart';
+import 'package:safet/pages/auth_done_page.dart';
+import 'package:safet/pages/auth_face_cam_page.dart';
 import 'package:safet/pages/auth_face_how_page.dart';
 import 'package:safet/pages/auth_idcard_cam_page.dart';
 import 'package:safet/pages/auth_idcard_how_page.dart';
 import 'package:safet/pages/auth_idinfo_check_page.dart';
 import 'package:safet/pages/auth_page.dart';
+import 'package:safet/pages/auth_phonenum_page.dart';
+import 'package:safet/pages/detailed_usage_map_page.dart';
 import 'package:safet/pages/home_page.dart';
-import 'package:safet/pages/identification_page.dart'; // IdentificationPage import 추가
+import 'package:safet/pages/identification_page.dart';
 import 'package:safet/pages/lock_page.dart';
 import 'package:safet/pages/login_page.dart';
 import 'package:safet/pages/map_page.dart';
@@ -32,8 +32,6 @@ import 'package:safet/pages/profile_page.dart';
 import 'package:safet/pages/rent_page.dart';
 import 'package:safet/pages/return_page.dart';
 import 'package:safet/pages/splash_page.dart';
-
-import 'dart:io'; // File 클래스를 사용하기 위해 추가
 
 const Color safeTblack = Color(0xFF1A1A1A);
 const Color safeTgray = Color(0xFFA1A1A1);
@@ -169,7 +167,6 @@ class MyApp extends StatelessWidget {
             case '/number':
               return MaterialPageRoute(builder: (context) => NumberInputPage(onNumberEntered: () {}));
             
-            // IdentificationPage 경로 수정된 부분
             case '/identification':
               final args = settings.arguments as Map<String, dynamic>; // 인자로 전달될 값을 받아옴
               return MaterialPageRoute(
