@@ -11,33 +11,33 @@ import 'package:safet/pages/auth_face_cam_page.dart';
 import 'package:safet/pages/auth_phonenum_page.dart';
 import 'package:safet/models/detailed_usage_data.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
+import 'package:safet/pages/agreement_page.dart';
+import 'package:safet/pages/alarm_page.dart';
+import 'package:safet/pages/announcement_page.dart';
+import 'package:safet/pages/auth_face_how_page.dart';
+import 'package:safet/pages/auth_idcard_cam_page.dart';
+import 'package:safet/pages/auth_idcard_how_page.dart';
+import 'package:safet/pages/auth_idinfo_check_page.dart';
+import 'package:safet/pages/auth_page.dart';
+import 'package:safet/pages/home_page.dart';
+import 'package:safet/pages/identification_page.dart'; // IdentificationPage import 추가
+import 'package:safet/pages/lock_page.dart';
+import 'package:safet/pages/login_page.dart';
+import 'package:safet/pages/map_page.dart';
+import 'package:safet/pages/number_input_page.dart';
+import 'package:safet/pages/one_on_one_inquiry_page.dart';
+import 'package:safet/pages/payment_selection_page.dart';
+import 'package:safet/pages/penalty_page.dart';
+import 'package:safet/pages/profile_page.dart';
+import 'package:safet/pages/rent_page.dart';
+import 'package:safet/pages/return_page.dart';
+import 'package:safet/pages/splash_page.dart';
 
-import 'pages/agreement_page.dart';
-import 'pages/alarm_page.dart';
-import 'pages/announcement_page.dart';
-import 'pages/auth_face_how_page.dart';
-import 'pages/auth_idcard_cam_page.dart';
-import 'pages/auth_idcard_how_page.dart';
-import 'pages/auth_idinfo_check_page.dart';
-import 'pages/auth_page.dart';
-import 'pages/home_page.dart';
-import 'pages/identification_page.dart';
-import 'pages/lock_page.dart';
-import 'pages/login_page.dart';
-import 'pages/map_page.dart';
-import 'pages/number_input_page.dart';
-import 'pages/one_on_one_inquiry_page.dart';
-import 'pages/payment_selection_page.dart';
-import 'pages/penalty_page.dart';
-import 'pages/profile_page.dart';
-import 'pages/rent_page.dart';
-import 'pages/return_page.dart';
-import 'pages/splash_page.dart';
-
+import 'dart:io'; // File 클래스를 사용하기 위해 추가
 
 const Color safeTblack = Color(0xFF1A1A1A);
 const Color safeTgray = Color(0xFFA1A1A1);
-const Color safeTgreen = Color.fromARGB(255, 175, 208, 143); //#afd08f  //0xFFAFAF8F
+const Color safeTgreen = Color.fromARGB(255, 175, 208, 143);
 const Color safeTlightgreen = Color(0xFFE7F1DE);
 
 Future<void> main() async {
@@ -62,139 +62,136 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        //ChangeNotifierProvider(create: (context) => InquiryData()),
-        //ChangeNotifierProvider(create: (context) => penalty_data()),
-        //ChangeNotifierProvider(create: (context) => DetailedUsageData()),
         ChangeNotifierProvider(create: (context) => AuthUserData()),
         ChangeNotifierProvider(create: (context) => AnnouncementProvider()),
       ],
       child: MaterialApp(
-            title: 'SafeT',
-      theme: ThemeData(
-        fontFamily: 'Pretendard',
-        primaryColor: safeTgreen, // 기본 색상
-        colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: safeTgreen, // 강조 색상
-          secondary: safeTlightgreen, // 보조 색상
-        ),
-        inputDecorationTheme: InputDecorationTheme(
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: safeTgreen), // 포커스된 텍스트 필드의 강조 색상
+        title: 'SafeT',
+        theme: ThemeData(
+          fontFamily: 'Pretendard',
+          primaryColor: safeTgreen,
+          colorScheme: ColorScheme.fromSwatch().copyWith(
+            primary: safeTgreen,
+            secondary: safeTlightgreen,
+          ),
+          inputDecorationTheme: InputDecorationTheme(
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: safeTgreen),
+            ),
           ),
         ),
-      ),
-            home: SplashPage(),
-            onGenerateRoute: (settings) {
-              switch (settings.name) {
-                case '/agreement':
-                  return MaterialPageRoute(builder: (context) => AgreementPage());
-                case '/alarm':
-                  return MaterialPageRoute(builder: (context) => AlarmPage());
-                case '/announcement':
-                  return MaterialPageRoute(builder: (context) => AnnouncementPage());
-                case '/auth_done':
-                  if (settings.arguments is UserInfo) {
-                    final userInfo = settings.arguments as UserInfo;
-                    return MaterialPageRoute(
-                      builder: (context) => AuthDonePage(userInfo: userInfo),
-                    );
-                  } else {
-                    return MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        body: Center(child: Text('Invalid user information.')),
-                      ),
-                    );
-                  }
-                    // final userInfo = settings.arguments as UserInfo;
-                    // return MaterialPageRoute(
-                    //   builder: (context) => AuthDonePage(
-                    //     userInfo: userInfo,
-                    //   ),
-                    // );
-                case '/auth_face_cam':
-                  final args = settings.arguments as Map<String, dynamic>;
-                  return MaterialPageRoute(
-                    builder: (context) => FaceCamPage(
-                      frontCamera: frontCamera, 
-                      userInfo: args['userInfo'],
-                      licenseImage: args['licenseImage'],
-                    ),
-                  );
-                case '/auth_face_how':
-                  final args = settings.arguments as Map<String, dynamic>;
-                  return MaterialPageRoute(
-                    builder: (context) => FaceHowPage(
-                      userInfo: args['userInfo'],
-                      licenseImage: args['licenseImage'],
-                    ),
-                  );
-                case '/auth_id_cam':
-                  return MaterialPageRoute(
-                    builder: (context) => IdCamPage(camera: backCamera),
-                  );
-                case '/auth_id_how':
-                  return MaterialPageRoute(builder: (context) => IdHowPage());
-                case '/auth_idinfo':
-                  final args = settings.arguments as Map<String, dynamic>;
-                  return MaterialPageRoute(
-                    builder: (context) => IdInfoCheckPage(
-                      recognizedLines: args['recognizedLines'] ?? [],
-                      licenseImage: args['licenseImage'],
-                    ),
-                  );
-                case '/detailed_usage_map':
-                  if (settings.arguments is DetailedUsage) {
-                    final usage = settings.arguments as DetailedUsage;
-                    return MaterialPageRoute(
-                      builder: (context) => DetailedUsageMapPage(usage: usage),
-                    );
-                  } else {
-                    return MaterialPageRoute(
-                      builder: (context) => Scaffold(
-                        body: Center(child: Text('Invalid map data.')),
-                      ),
-                    );
-                  }
-    
-                case '/auth':
-                  return MaterialPageRoute(builder: (context) => AuthPage());
-                case '/auth_phonenumber':
-                  return MaterialPageRoute(builder: (context) => PhoneNumberInputPage());
-                case '/home':
-                  return MaterialPageRoute(builder: (context) => HomePage());
-                case '/lock':
-                  return MaterialPageRoute(builder: (context) => LockedPage());
-                case '/login':
-                  return MaterialPageRoute(builder: (context) => LoginPage());
-                case '/map':
-                  return MaterialPageRoute(builder: (context) => MapPage());
-                case '/profile':
-                  return MaterialPageRoute(builder: (context) => ProfilePage());
-                case '/rent':
-                  return MaterialPageRoute(builder: (context) => RentPage());
-                case '/return':
-                  return MaterialPageRoute(builder: (context) => ReturnPage());
-                case '/payment':
-                  return MaterialPageRoute(builder: (context) => PaymentSelectionPage());
-                case '/number':
-                  return MaterialPageRoute(builder: (context) => NumberInputPage(onNumberEntered: () {}));
-                case '/identification':
-                  return MaterialPageRoute(builder: (context) => IdentificationPage());
-                case '/penalty':
-                  return MaterialPageRoute(builder: (context) => PenaltyPage());
-                case '/one_on_one_inquiry':
-                  return MaterialPageRoute(
-                    builder: (context) => OneOnOneInquiryPage(
-                      initialCategory: Category.penalty,
-                      initialTitle: '벌점 기록에 대한 문의',
-                    ),
-                  );
-                default:
-                  return MaterialPageRoute(builder: (context) => SplashPage());
-                
+        home: SplashPage(),
+        onGenerateRoute: (settings) {
+          switch (settings.name) {
+            case '/agreement':
+              return MaterialPageRoute(builder: (context) => AgreementPage());
+            case '/alarm':
+              return MaterialPageRoute(builder: (context) => AlarmPage());
+            case '/announcement':
+              return MaterialPageRoute(builder: (context) => AnnouncementPage());
+            case '/auth_done':
+              if (settings.arguments is UserInfo) {
+                final userInfo = settings.arguments as UserInfo;
+                return MaterialPageRoute(
+                  builder: (context) => AuthDonePage(userInfo: userInfo),
+                );
+              } else {
+                return MaterialPageRoute(
+                  builder: (context) => Scaffold(
+                    body: Center(child: Text('Invalid user information.')),
+                  ),
+                );
               }
-            },
-          ),
+            case '/auth_face_cam':
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) => FaceCamPage(
+                  frontCamera: frontCamera, 
+                  userInfo: args['userInfo'],
+                  licenseImage: args['licenseImage'],
+                ),
+              );
+            case '/auth_face_how':
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) => FaceHowPage(
+                  userInfo: args['userInfo'],
+                  licenseImage: args['licenseImage'],
+                ),
+              );
+            case '/auth_id_cam':
+              return MaterialPageRoute(
+                builder: (context) => IdCamPage(camera: backCamera),
+              );
+            case '/auth_id_how':
+              return MaterialPageRoute(builder: (context) => IdHowPage());
+            case '/auth_idinfo':
+              final args = settings.arguments as Map<String, dynamic>;
+              return MaterialPageRoute(
+                builder: (context) => IdInfoCheckPage(
+                  recognizedLines: args['recognizedLines'] ?? [],
+                  licenseImage: args['licenseImage'],
+                ),
+              );
+            case '/detailed_usage_map':
+              if (settings.arguments is DetailedUsage) {
+                final usage = settings.arguments as DetailedUsage;
+                return MaterialPageRoute(
+                  builder: (context) => DetailedUsageMapPage(usage: usage),
+                );
+              } else {
+                return MaterialPageRoute(
+                  builder: (context) => Scaffold(
+                    body: Center(child: Text('Invalid map data.')),
+                  ),
+                );
+              }
+            case '/auth':
+              return MaterialPageRoute(builder: (context) => AuthPage());
+            case '/auth_phonenumber':
+              return MaterialPageRoute(builder: (context) => PhoneNumberInputPage());
+            case '/home':
+              return MaterialPageRoute(builder: (context) => HomePage());
+            case '/lock':
+              return MaterialPageRoute(builder: (context) => LockedPage());
+            case '/login':
+              return MaterialPageRoute(builder: (context) => LoginPage());
+            case '/map':
+              return MaterialPageRoute(builder: (context) => MapPage());
+            case '/profile':
+              return MaterialPageRoute(builder: (context) => ProfilePage());
+            case '/rent':
+              return MaterialPageRoute(builder: (context) => RentPage());
+            case '/return':
+              return MaterialPageRoute(builder: (context) => ReturnPage());
+            case '/payment':
+              return MaterialPageRoute(builder: (context) => PaymentSelectionPage());
+            case '/number':
+              return MaterialPageRoute(builder: (context) => NumberInputPage(onNumberEntered: () {}));
+            
+            // IdentificationPage 경로 수정된 부분
+            case '/identification':
+              final args = settings.arguments as Map<String, dynamic>; // 인자로 전달될 값을 받아옴
+              return MaterialPageRoute(
+                builder: (context) => IdentificationPage(
+                  frontCamera: args['frontCamera'], // 인자로 전달된 frontCamera 사용
+                ),
+              );
+
+            case '/penalty':
+              return MaterialPageRoute(builder: (context) => PenaltyPage());
+            case '/one_on_one_inquiry':
+              return MaterialPageRoute(
+                builder: (context) => OneOnOneInquiryPage(
+                  initialCategory: Category.penalty,
+                  initialTitle: '벌점 기록에 대한 문의',
+                ),
+              );
+            default:
+              return MaterialPageRoute(builder: (context) => SplashPage());
+          }
+        },
+      ),
     );
   }
 }
