@@ -168,10 +168,10 @@ class MyApp extends StatelessWidget {
               return MaterialPageRoute(builder: (context) => NumberInputPage(onNumberEntered: () {}));
             
             case '/identification':
-              final args = settings.arguments as Map<String, dynamic>; // 인자로 전달될 값을 받아옴
+              final args = settings.arguments as Map<String, dynamic>;
               return MaterialPageRoute(
                 builder: (context) => IdentificationPage(
-                  frontCamera: args['frontCamera'], // 인자로 전달된 frontCamera 사용
+                  camera: args['camera'],  // 선택된 카메라 전달
                 ),
               );
 
