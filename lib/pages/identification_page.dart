@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -8,18 +9,17 @@ import 'package:safet/utils/constants.dart'; // baseUrl 가져오기
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IdentificationPage extends StatefulWidget {
-  final CameraDescription frontCamera; // 프론트 카메라 추가
+  final CameraDescription camera;  // 여기서 camera를 정의합니다.
 
-  const IdentificationPage({Key? key, required this.frontCamera}) : super(key: key);
+  const IdentificationPage({required this.camera});  // camera를 required로 설정
 
   @override
   _IdentificationPageState createState() => _IdentificationPageState();
 }
 
 class _IdentificationPageState extends State<IdentificationPage> {
-  late CameraController _controller;
+  CameraController? _controller;
   bool isCameraInitialized = false;
-  late XFile faceImage;
 
   @override
   void initState() {
@@ -27,28 +27,30 @@ class _IdentificationPageState extends State<IdentificationPage> {
     _initializeCamera();
   }
 
-  // 카메라 초기화 메서드
-  void _initializeCamera() async {
-    try {
-      _controller = CameraController(widget.frontCamera, ResolutionPreset.medium); // widget.frontCamera 사용
-      await _controller.initialize();
-      if (!mounted) return;
-      setState(() {
-        isCameraInitialized = true;
-      });
-    } catch (e) {
-      print('Error initializing camera: $e');
-    }
+  Future<void> _initializeCamera() async {
+    _controller = CameraController(widget.camera, ResolutionPreset.medium);  // widget.camera를 사용
+    await _controller?.initialize();
+    setState(() {
+      isCameraInitialized = true;
+    });
+  }
+  
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 
   // 사진 촬영 및 서버로 전송 메서드
   Future<void> _captureAndSendImage() async {
     try {
-      final faceImage = await _controller.takePicture();
-      await _sendImageToServer(faceImage);
+      if (_controller != null) {
+        final faceImage = await _controller!.takePicture();
+        await _sendImageToServer(faceImage);
+      }
     } catch (e) {
       print('Error capturing image: $e');
-      _showErrorDialog(context);
+      _showErrorDialog(context, '사진을 촬영하는 데 실패했습니다. 다시 시도해주세요.');
     }
   }
 
@@ -83,18 +85,12 @@ class _IdentificationPageState extends State<IdentificationPage> {
         Navigator.pop(context, true); // 성공 시 true 반환
       } else {
         print('Failed to upload image');
-        _showErrorDialog(context); // 실패 시 오류 다이얼로그
+        _showErrorDialog(context, '이미지 업로드에 실패했습니다.');
       }
     } catch (e) {
       print('Error sending image to server: $e');
-      _showErrorDialog(context); // 예외 발생 시 오류 다이얼로그
+      _showErrorDialog(context, '서버로 이미지를 전송하는 데 실패했습니다.');
     }
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 
   @override
@@ -105,7 +101,7 @@ class _IdentificationPageState extends State<IdentificationPage> {
           ? Stack(
               children: <Widget>[
                 SizedBox.expand(
-                  child: CameraPreview(_controller),
+                  child: CameraPreview(_controller!),
                 ),
                 Positioned(
                   left: 0,
@@ -158,13 +154,13 @@ class _IdentificationPageState extends State<IdentificationPage> {
     );
   }
 
-  void _showErrorDialog(BuildContext context) {
+  void _showErrorDialog(BuildContext context, String message) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('얼굴 인식 실패'),
-          content: Text('얼굴이 인식되지 않았습니다. 다시 시도해 주세요.'),
+          content: Text(message),
           actions: <Widget>[
             TextButton(
               child: Text('확인'),
