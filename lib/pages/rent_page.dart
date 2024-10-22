@@ -134,7 +134,7 @@ class _RentPageState extends State<RentPage> {
         context,
         MaterialPageRoute(
           builder: (context) => IdentificationPage(
-            frontCamera: frontCamera!, // null이 아닌 값 전달
+            camera: frontCamera!, // null이 아닌 값 전달
           ),
         ),
       ).then((isIdentified) {
