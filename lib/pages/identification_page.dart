@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'dart:async';
+
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -9,9 +11,9 @@ import 'package:safet/utils/constants.dart'; // baseUrl 가져오기
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IdentificationPage extends StatefulWidget {
-  final CameraDescription camera;  // 여기서 camera를 정의합니다.
+  final CameraDescription camera;
 
-  const IdentificationPage({required this.camera});  // camera를 required로 설정
+  const IdentificationPage({Key? key, required this.camera}) : super(key: key);
 
   @override
   _IdentificationPageState createState() => _IdentificationPageState();
@@ -19,54 +21,67 @@ class IdentificationPage extends StatefulWidget {
 
 class _IdentificationPageState extends State<IdentificationPage> {
   CameraController? _controller;
-  bool isCameraInitialized = false;
+  bool _isCameraInitialized = false;
+  bool _initializationFailed = false;
+  late Future<void> _initializeControllerFuture;
 
   @override
   void initState() {
     super.initState();
-    _initializeCamera();
+    initializeCamera();
   }
 
-  Future<void> _initializeCamera() async {
-    _controller = CameraController(widget.camera, ResolutionPreset.medium);  // widget.camera를 사용
-    await _controller?.initialize();
-    setState(() {
-      isCameraInitialized = true;
-    });
+  Future<void> initializeCamera() async {
+    try {
+      _controller = CameraController(widget.camera, ResolutionPreset.high);
+      _initializeControllerFuture = _controller!.initialize();
+      await _initializeControllerFuture;
+      setState(() {
+        _isCameraInitialized = true;
+        _initializationFailed = false;
+      });
+    } catch (e) {
+      setState(() {
+        _isCameraInitialized = false;
+        _initializationFailed = true;
+      });
+      Future.delayed(const Duration(seconds: 2), initializeCamera);
+    }
   }
-  
+
   @override
   void dispose() {
     _controller?.dispose();
     super.dispose();
   }
 
-  // 사진 촬영 및 서버로 전송 메서드
   Future<void> _captureAndSendImage() async {
     try {
-      if (_controller != null) {
-        final faceImage = await _controller!.takePicture();
-        await _sendImageToServer(faceImage);
-      }
+      await _initializeControllerFuture;
+      final faceImage = await _controller!.takePicture();
+      await _sendImageToServer(faceImage);
     } catch (e) {
+      _showErrorDialog(context, '사진 촬영에 실패했습니다. 다시 시도해주세요.');
       print('Error capturing image: $e');
-      _showErrorDialog(context, '사진을 촬영하는 데 실패했습니다. 다시 시도해주세요.');
     }
   }
 
-  // 서버로 이미지 전송 메서드
   Future<void> _sendImageToServer(XFile image) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String? userId = prefs.getString('userId');
-      print('저장된 사용자 ID: $userId');
+
+      if (userId == null) {
+        _showErrorDialog(context, '사용자 ID를 불러오는 데 실패했습니다.');
+        return;
+      }
 
       var request = http.MultipartRequest(
         'POST',
-        Uri.parse('${baseUrl}kickboard/rent/identify'), // baseUrl 적용
+        Uri.parse('${baseUrl}kickboard/rent/identify'),
       );
       request.headers['Accept'] = 'application/json';
-      request.fields['userId'] = userId ?? '';
+      request.fields['userId'] = userId;
 
       var faceImageStream = http.ByteStream(image.openRead());
       var faceImageLength = await image.length();
@@ -80,28 +95,55 @@ class _IdentificationPageState extends State<IdentificationPage> {
       );
 
       var response = await request.send();
+
       if (response.statusCode == 200) {
-        print('Image uploaded successfully');
-        Navigator.pop(context, true); // 성공 시 true 반환
+        Navigator.pop(context, true);
       } else {
-        print('Failed to upload image');
         _showErrorDialog(context, '이미지 업로드에 실패했습니다.');
       }
     } catch (e) {
-      print('Error sending image to server: $e');
       _showErrorDialog(context, '서버로 이미지를 전송하는 데 실패했습니다.');
     }
+  }
+
+  void _showErrorDialog(BuildContext context, String message) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('얼굴 인식 실패'),
+          content: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: isCameraInitialized
+      body: _isCameraInitialized
           ? Stack(
               children: <Widget>[
-                SizedBox.expand(
-                  child: CameraPreview(_controller!),
+                FutureBuilder<void>(
+                  future: _initializeControllerFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      return Center(
+                        child: CameraPreview(_controller!),
+                      );
+                    } else {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                  },
                 ),
                 Positioned(
                   left: 0,
@@ -151,26 +193,6 @@ class _IdentificationPageState extends State<IdentificationPage> {
               ],
             )
           : Center(child: CircularProgressIndicator()),
-    );
-  }
-
-  void _showErrorDialog(BuildContext context, String message) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('얼굴 인식 실패'),
-          content: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: Text('확인'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
     );
   }
 }
