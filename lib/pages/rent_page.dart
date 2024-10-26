@@ -24,6 +24,12 @@ class _RentPageState extends State<RentPage> {
     _loadRegisteredFaceImage(); // Load the registered face image
   }
 
+  @override
+  void dispose() {
+    controller?.dispose();
+    super.dispose();
+  }
+
   //
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
@@ -143,20 +149,41 @@ class _RentPageState extends State<RentPage> {
     });
   }
 
+  // void _navigateToIdentification(BuildContext context) {
+  //   if (firstCamera != null) {
+  //       Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //           builder: (context) => IdentificationPage(
+  //             frontCamera: firstCamera!,
+  //           ),
+  //         ),
+  //     // Navigator.push(
+  //     //   context,
+  //     //   MaterialPageRoute(
+  //     //     builder: (context) => IdentificationPage(),
+  //     //   ),
+  //     ).then((isIdentified) {
+  //       if (isIdentified != null && isIdentified) {
+  //         _showBatteryPopup(context);
+  //       } else {
+  //         _showErrorDialog(context, "얼굴 인식에 실패했습니다. 다시 시도해주세요.");
+  //       }
+  //     });
+  //   } else {
+  //     _showErrorDialog(context, "카메라를 초기화하는 데 실패했습니다. 다시 시도해주세요.");
+  //   }
+  // }
+  
   void _navigateToIdentification(BuildContext context) {
     if (firstCamera != null) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => IdentificationPage(
-              frontCamera: firstCamera!,
-            ),
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => IdentificationPage(
+            frontCamera: firstCamera!,
           ),
-      // Navigator.push(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => IdentificationPage(),
-      //   ),
+        ),
       ).then((isIdentified) {
         if (isIdentified != null && isIdentified) {
           _showBatteryPopup(context);
@@ -167,12 +194,6 @@ class _RentPageState extends State<RentPage> {
     } else {
       _showErrorDialog(context, "카메라를 초기화하는 데 실패했습니다. 다시 시도해주세요.");
     }
-  }
-
-  @override
-  void dispose() {
-    controller?.dispose();
-    super.dispose();
   }
 
   void _showErrorDialog(BuildContext context, String message) {
