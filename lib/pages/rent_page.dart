@@ -1,12 +1,7 @@
-/*import 'dart:io';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:safet/back/rent.dart';
-import 'package:safet/models/user_face_info.dart'; // 변경된 부분
-import 'package:safet/utils/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart'; // 추가된 부분
-import 'package:http/http.dart' as http; // 추가된 부분
 import '../main.dart';
 import 'identification_page.dart'; // Ensure the import is correct
 import 'number_input_page.dart';
@@ -20,9 +15,8 @@ class _RentPageState extends State<RentPage> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
   QRViewController? controller;
-  CameraDescription? frontCamera; // Store front camera information
-  File? registeredFaceImage; // Variable to hold the registered face image
-
+  CameraDescription? firstCamera;
+  
   @override
   void initState() {
     super.initState();
@@ -30,17 +24,29 @@ class _RentPageState extends State<RentPage> {
     _loadRegisteredFaceImage(); // Load the registered face image
   }
 
-  void _initializeCamera() async {
-    try {
-      final cameras = await availableCameras();
-      frontCamera = cameras.firstWhere(
+  //
+  Future<void> _initializeCamera() async {
+    final cameras = await availableCameras();
+    setState(() {
+      firstCamera = cameras.firstWhere(
         (camera) => camera.lensDirection == CameraLensDirection.front,
+        orElse: () => cameras.first,
       );
-      setState(() {});
-    } catch (e) {
-      print('Error initializing camera: $e');
-    }
+    });
   }
+  //
+
+  // void _initializeCamera() async {
+  //   try {
+  //     final cameras = await availableCameras();
+  //     frontCamera = cameras.firstWhere(
+  //       (camera) => camera.lensDirection == CameraLensDirection.front,
+  //     );
+  //     setState(() {});
+  //   } catch (e) {
+  //     print('Error initializing camera: $e');
+  //   }
+  // }
 
   Future<void> _loadRegisteredFaceImage() async {
     // 얼굴 이미지 로드하는 로직을 구현
@@ -138,28 +144,19 @@ class _RentPageState extends State<RentPage> {
   }
 
   void _navigateToIdentification(BuildContext context) {
-    if (frontCamera != null && registeredFaceImage != null) {
-      UserFaceInfo userFaceInfo = UserFaceInfo(
-        registeredFaceImagePath: registeredFaceImage!.path,
-        currentFaceImagePath: '현재_이미지_경로', // 현재 얼굴 이미지를 어떻게 가져올 것인지 구현 필요
-        userId: '사용자_ID', // 사용자 ID를 어떻게 가져올 것인지 구현 필요
-      );
-
-      _uploadImages(userFaceInfo).then((result) {
-        // 결과 처리
-        print(result);
-        // 결과에 따라 UI 업데이트 또는 다른 로직 구현 가능
-      });
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => IdentificationPage(
-            frontCamera: frontCamera!,
-            userFaceInfo: userFaceInfo, // UserFaceInfo 전달
-            registeredFaceImage: registeredFaceImage!,
+    if (firstCamera != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => IdentificationPage(
+              frontCamera: firstCamera!,
+            ),
           ),
-        ),
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => IdentificationPage(),
+      //   ),
       ).then((isIdentified) {
         if (isIdentified != null && isIdentified) {
           _showBatteryPopup(context);
@@ -169,47 +166,6 @@ class _RentPageState extends State<RentPage> {
       });
     } else {
       _showErrorDialog(context, "카메라를 초기화하는 데 실패했습니다. 다시 시도해주세요.");
-    }
-  }
-
-  Future<String> _uploadImages(UserFaceInfo userFaceInfo) async {
-    try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? userId = prefs.getString('userId'); // 저장된 사용자 ID 가져오기
-      print('저장된 사용자 ID: $userId');
-
-      // 이미지 업로드를 위한 multipart request 생성
-      var request = http.MultipartRequest(
-        'POST',
-        Uri.parse('${baseUrl}face/request'),
-      );
-
-      // 사용자 아이디 추가
-      request.fields['userId'] = userId ?? ''; 
-
-      // 등록된 얼굴 이미지와 현재 얼굴 이미지 추가
-      request.files.add(await http.MultipartFile.fromPath(
-        'registeredFaceImage',
-        userFaceInfo.registeredFaceImagePath,
-      ));
-
-      request.files.add(await http.MultipartFile.fromPath(
-        'currentFaceImage',
-        userFaceInfo.currentFaceImagePath,
-      ));
-
-      // 요청 전송
-      var response = await request.send();
-
-      // 응답 처리
-      if (response.statusCode == 200) {
-        return '성공적으로 업로드되었습니다.';
-      } else {
-        return '업로드 실패: ${response.statusCode}';
-      }
-    } catch (e) {
-      print('업로드 중 오류 발생: $e');
-      return '업로드 중 오류 발생: $e';
     }
   }
 
@@ -303,4 +259,3 @@ class _RentPageState extends State<RentPage> {
     );
   }
 }
-*/
