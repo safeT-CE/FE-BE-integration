@@ -20,6 +20,7 @@ import 'package:safet/pages/auth_page.dart';
 import 'package:safet/pages/auth_phonenum_page.dart';
 import 'package:safet/pages/detailed_usage_map_page.dart';
 import 'package:safet/pages/home_page.dart';
+import 'package:safet/pages/identification_page.dart';
 import 'package:safet/pages/lock_page.dart';
 import 'package:safet/pages/login_page.dart';
 import 'package:safet/pages/map_page.dart';
@@ -28,10 +29,9 @@ import 'package:safet/pages/one_on_one_inquiry_page.dart';
 import 'package:safet/pages/payment_selection_page.dart';
 import 'package:safet/pages/penalty_page.dart';
 import 'package:safet/pages/profile_page.dart';
+import 'package:safet/pages/rent_page.dart';
 import 'package:safet/pages/return_page.dart';
 import 'package:safet/pages/splash_page.dart';
-import 'package:safet/pages/identification_page.dart';
-import 'package:safet/pages/rent_page.dart';
 
 const Color safeTblack = Color(0xFF1A1A1A);
 const Color safeTgray = Color(0xFFA1A1A1);
@@ -159,23 +159,23 @@ class MyApp extends StatelessWidget {
             case '/profile':
               return MaterialPageRoute(builder: (context) => ProfilePage());
             case '/rent':
-              return MaterialPageRoute(builder: (context) => RentPage());
+              return MaterialPageRoute(
+                builder: (context) => RentPage(frontCamera: frontCamera), // frontCamera 전달
+              );
             case '/return':
               return MaterialPageRoute(builder: (context) => ReturnPage());
             case '/payment':
               return MaterialPageRoute(builder: (context) => PaymentSelectionPage());
             case '/number':
               return MaterialPageRoute(builder: (context) => NumberInputPage(onNumberEntered: () {}));
-            
+                                
             case '/identification':
+              // frontCamera를 arguments로 전달하도록 수정
               final args = settings.arguments as Map<String, dynamic>;
-              final camera = args['camera'];  // 선택된 카메라
-
               return MaterialPageRoute(
-                builder: (context) => IdentificationPage(
-                  frontCamera: camera  // 선택된 카메라 전달
-                ),
+                builder: (context) => IdentificationPage(frontCamera: args['frontCamera']),
               );
+
 
             case '/penalty':
               return MaterialPageRoute(builder: (context) => PenaltyPage());
@@ -193,4 +193,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
+} 
