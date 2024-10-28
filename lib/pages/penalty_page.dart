@@ -44,6 +44,7 @@ class PenaltyPage extends StatelessWidget {
 
                     // 날짜를 포맷팅
                     String formattedDate = DateFormat('yyyy-MM-dd – kk:mm').format(penalty.date);
+                    penalties.sort((a, b) => b.date.compareTo(a.date)); // 내림차순 정렬
 
                     return Card(
                       color: safeTlightgreen,

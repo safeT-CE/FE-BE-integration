@@ -21,7 +21,7 @@ class FaqTile extends StatelessWidget {
       title: Text(
         question,
         style: TextStyle(
-          color: safeTgreen, 
+          color: Colors.black, 
           fontWeight: FontWeight.bold,
         ),
       ),

@@ -94,7 +94,8 @@ class _IdentificationPageState extends State<IdentificationPage> {
         // 얼굴 인식 성공 처리
         Navigator.pop(context, true);
       } else {
-        _showErrorDialog('이미지 업로드에 실패했습니다. 상태 코드: ${response.statusCode}');
+        //_showErrorDialog('${responseBody} 얼굴 인식을 다시 시도해주세요.');
+        _showErrorDialog('얼굴이 동일하지 않습니다. 얼굴 인식을 다시 시도해주세요.');
       }
     } catch (e) {
       _showErrorDialog('서버로 이미지를 전송하는 데 실패했습니다.');

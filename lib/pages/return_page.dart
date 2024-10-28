@@ -27,6 +27,7 @@ class ReturnPage extends StatelessWidget {
               SizedBox(height: 10), // 상단 여백
               ElevatedButton(
                 onPressed: () {
+                  rentKickboard();
                   checkReturnKickboard(context);
                 },
                 style: ElevatedButton.styleFrom(

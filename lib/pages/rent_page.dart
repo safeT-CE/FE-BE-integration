@@ -1,7 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:safet/pages/identification_page.dart';
 import 'package:safet/pages/number_input_page.dart';
+import 'package:safet/back/rent.dart';
 
 import '../main.dart';
 
@@ -18,6 +18,7 @@ class _RentPageState extends State<RentPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white, // 배경색을 흰색으로 설정
       appBar: AppBar(
         title: Text('대여하기'),
         backgroundColor: Colors.white,
@@ -27,7 +28,7 @@ class _RentPageState extends State<RentPage> {
         iconTheme: IconThemeData(color: safeTgreen),
       ),
       body: Center(
-        child: Column(
+        child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             ElevatedButton(
@@ -51,7 +52,7 @@ class _RentPageState extends State<RentPage> {
               },
               child: Icon(Icons.dialpad),
             ),
-            SizedBox(height: 20),
+            SizedBox(width: 80), // 버튼 간의 간격을 늘림
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: CircleBorder(),
@@ -70,20 +71,19 @@ class _RentPageState extends State<RentPage> {
     );
   }
 
-void _navigateToIdentification(BuildContext context) {
-  Navigator.pushNamed(
-    context,
-    '/identification',
-    arguments: {'frontCamera': widget.frontCamera},
-  ).then((result) {
-    if (result is bool && result) { // result가 bool인지 확인
-      _showBatteryPopup(context);
-    } else {
-      _showErrorDialog(context, "얼굴 인식에 실패했습니다. 다시 시도해주세요.");
-    }
-  });
-}
-
+  void _navigateToIdentification(BuildContext context) {
+    Navigator.pushNamed(
+      context,
+      '/identification',
+      arguments: {'frontCamera': widget.frontCamera},
+    ).then((result) {
+      if (result is bool && result) { // result가 bool인지 확인
+        _showBatteryPopup(context);
+      } else {
+        _showErrorDialog(context, "얼굴 인식에 실패했습니다. 다시 시도해주세요.");
+      }
+    });
+  }
 
   void _showErrorDialog(BuildContext context, String message) {
     showDialog(
@@ -126,6 +126,8 @@ void _navigateToIdentification(BuildContext context) {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
+                // Make the Spring Boot API request here
+                requestRentalCompletion();
                 _showRentalConfirmationPopup(context);
               },
               style: TextButton.styleFrom(foregroundColor: safeTgreen),
@@ -149,7 +151,7 @@ void _navigateToIdentification(BuildContext context) {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                Navigator.pushNamed(context, '/home');
+                Navigator.pushNamed(context, '/home'); // 홈으로 이동
               },
               style: TextButton.styleFrom(foregroundColor: safeTgreen),
               child: Text('확인'),

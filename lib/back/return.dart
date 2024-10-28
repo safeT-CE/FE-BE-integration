@@ -5,6 +5,28 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:safet/pages/return_page.dart';
 import 'package:safet/utils/constants.dart';
 
+// python코드 종료 요청
+Future<void> rentKickboard() async {
+  try{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? userId = prefs.getString('userId');
+    
+    // 수정 필요 : 예시 kickboardId
+    final kickboardId = 1;
+    final url = Uri.parse('${baseUrl}kickboard/rent?kickboardId=1&userId=$userId'); // 쿼리 매개변수로 추가
+
+    final response = await http.post(url);
+
+    if (response.statusCode == 200) {
+      print('Rental completed successfully: ${response.body}');
+    } else {
+      print('Failed to complete rental: ${response.statusCode} - ${response.body}');
+    }
+  } catch (e) {
+    print('Error completing rental: $e');
+  }
+}
+
 // 버튼 클릭 시 API 요청 보내는 함수
 Future<void> checkReturnKickboard(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -38,6 +60,8 @@ Future<void> checkReturnKickboard(BuildContext context) async {
   }
 }
 
+
+// 주차 점검 실행 요청
 Future<void> returnKickboard(BuildContext context) async {
     // 수정 필요 : 예시 kickboardId
     final kickboardId = 1;
@@ -62,3 +86,5 @@ Future<void> returnKickboard(BuildContext context) async {
       ReturnPage.showErrorPopup(context, "에러가 발생했습니다: $e");
     }
   }
+
+  

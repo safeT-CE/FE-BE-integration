@@ -30,7 +30,7 @@ class InquiryTile extends StatelessWidget {
         title: Text(
           title,
           style: TextStyle(
-            color: safeTgreen, // 주요 컬러 사용
+            color: Colors.black, // 주요 컬러 사용
             fontWeight: FontWeight.bold,
           ),
         ),
